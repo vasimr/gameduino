@@ -1,0 +1,62 @@
+E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity ParallelInterface
+-- Compiling architecture RTL of ParallelInterface
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/j0.v {2 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/j0.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module j0
+** Warning: E:/jfixelle/Documents/gameduino/fpga/j0.v(107): (vlog-2182) '_pc' might be read before written in always_comb or always @* block.
+
+Top level modules:
+	j0
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/testtop.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/testtop.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module top
+
+Top level modules:
+	top
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/revision.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/revision.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/generated.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/generated.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module RAM_SPRIMG
+-- Compiling module RAM_PICTURE
+-- Compiling module RAM_CHR
+-- Compiling module RAM_PAL
+-- Compiling module RAM_SPRVAL
+-- Compiling module RAM_SPRPAL
+-- Compiling module RAM_CODEL
+-- Compiling module RAM_CODEH
+
+Top level modules:
+	RAM_SPRIMG
+	RAM_PICTURE
+	RAM_CHR
+	RAM_PAL
+	RAM_SPRVAL
+	RAM_SPRPAL
+	RAM_CODEL
+	RAM_CODEH
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/fifo.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/fifo.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module fifo
+
+Top level modules:
+	fifo
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/ck_div.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/ck_div.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ck_div
+
+Top level modules:
+	ck_div
+
+} {} {}}

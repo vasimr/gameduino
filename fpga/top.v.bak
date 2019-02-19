@@ -818,7 +818,6 @@ module top(
   output vga_hsync_n,
   output vga_vsync_n,
 
-  // SPI seems like it is still needed for the flash interface
   input SCK,  // arduino 13
   input MOSI, // arduino 11
   inout MISO, // arduino 12
