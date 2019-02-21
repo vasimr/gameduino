@@ -37,7 +37,7 @@ begin
 			pdata <= data_r;
 		else
 			pdata <= (others => 'Z');
-		end if
+		end if;
 	end process tri_proc;
 	
 
