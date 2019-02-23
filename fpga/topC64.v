@@ -52,6 +52,8 @@ module ring64(
   SRL16E ring3( .CLK(clk), .CE(1), .D(o2), .A0(1), .A1(1), .A2(1), .A3(1), .Q(o));
 endmodule
 
+`ifndef ALTERA
+
 module ram256x1s(
   input d,
   input we,
@@ -279,6 +281,7 @@ module mRAM64X1D(
   assign SPO = A5 ? hSPO : lSPO;
 endmodule
 
+
 module mRAM128X1D(
   input D,
   input WE,
@@ -348,6 +351,7 @@ module mRAM128X1D(
   assign DPO = DPRA6 ? hDPO : lDPO;
   assign SPO = A6 ? hSPO : lSPO;
 endmodule
+
 
 
 module mRAM256X1D(
@@ -693,6 +697,7 @@ module ram400x7s(
   endgenerate
 endmodule
 
+`endif
 // SPI can be many things, so to be clear, this implementation:
 //   MSB first
 //   CPOL 0, leading edge when SCK rises
