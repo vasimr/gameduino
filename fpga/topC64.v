@@ -1218,7 +1218,7 @@ module top(
     11'b011xxxxxxx0: mem_data_rd_reg <= j1insnl_read;
     11'b011xxxxxxx1: mem_data_rd_reg <= j1insnh_read;
     11'b1xxxxxxxxxx: mem_data_rd_reg <= screenshot_rd;
-    // default: mem_data_rd_reg <= 0;
+     default: mem_data_rd_reg <= 0;
     endcase
   end
 
@@ -1839,7 +1839,7 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
     5'h16: local_j1_read <= flashMISO;
     5'h18: local_j1_read <= dna_dout;
 
-    // default: local_j1_read <= 16'hffff;
+    default: local_j1_read <= 16'hffff;
     endcase
   end
 
