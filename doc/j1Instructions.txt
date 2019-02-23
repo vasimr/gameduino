@@ -1,0 +1,92 @@
+1XX Literal
+000 Jump
+001 Conditional Jump
+010 Call
+011 ALU
+
+Variables:
+T - Value on top of stack
+N - Second item on stack
+R - value on top of return stack
+
+ALU Operations (modify value on top of stack)
+
+Encoding	Document     	C								Forth
+0			T				T = T							; (R-> PC, Rstack--), DUP (T->N, dstack++), NIP (dstack--)
+1			N				T = N							DROP (dstack--), OVER (T->N, dstack++), >r (T->R, dstack--, rstack++)
+2			T + N			T = T + N						+ (dstack--)
+3			T and N			T = T & N						AND (dstack--)
+4			T or N			T = T | N						OR (dstack--)
+5			T XOR N			T = T ^ N						XOR (dstack--)
+6			~T				T = ~T							INVERT 
+7			N = T			T = (N == T)? 1 : 0				=
+8			N < T			T = (N < T)? 1 : 0 (signed)		<
+9			N rshft T		T = N >> (T & 0xF)				/  (dstack--)
+10			T - 1			T = T - 1						-- 
+11			R				T = R							r> (Rstack--, dstack++, T->R, T->N), r@ (dstack++, T->R, T->N)
+12			[T]				T = mem[T]						@
+13			N lshift T		T = N * T						* (dstack--)
+14			depth			swap bytes of T					DEPTH
+15			N u< T			T = (N < T)? 1 : 0 (unsigned)	U<
+
+
+Note: nop is encoded as 01100000 00000000
+      the value 000000000 00000000 is jump to PC=0
+	  
+Note: bit 4 for the alu instructions is not used, and could therefore expand the ALU to 32 operations.
+	  
+Base words:
+: noop      T                       alu ;
+: +         T+N                 d-1 alu ;
+: xor       T^N                 d-1 alu ;
+: and       T&N                 d-1 alu ;
+: or        T|N                 d-1 alu ;
+: invert    ~T                      alu ;
+: =         N==T                d-1 alu ;
+: <         N<T                 d-1 alu ;
+: u<        Nu<T                d-1 alu ;
+: swap      N     T->N              alu ;
+: dup       T     T->N          d+1 alu ;
+: drop      N                   d-1 alu ;
+: over      N     T->N          d+1 alu ;
+: nip       T                   d-1 alu ;
+: >r        N     T->R      r+1 d-1 alu ;
+: r>        rT    T->N      r-1 d+1 alu ;
+: r@        rT    T->N          d+1 alu ;
+: @         [T]                     alu ;
+: !         T     N->[T]        d-1 alu
+            N                   d-1 alu ;
+: dsp       dsp   T->N          d+1 alu ;
+: lshift    N<<T                d-1 alu ;
+: rshift    N>>T  			    d-1 alu (implemented as multiply);
+: 1-        T-1                     alu ;
+: 2r>       rT    T->N      r-1 d+1 alu
+            rT    T->N      r-1 d+1 alu
+            N     T->N              alu ;
+: 2>r       N     T->N              alu
+            N     T->R      r+1 d-1 alu
+            N     T->R      r+1 d-1 alu ;
+: 2r@       rT    T->N      r-1 d+1 alu
+            rT    T->N      r-1 d+1 alu
+            N     T->N          d+1 alu
+            N     T->N          d+1 alu
+            N     T->R      r+1 d-1 alu
+            N     T->R      r+1 d-1 alu
+            N     T->N              alu ;
+: unloop
+            T               r-1     alu
+            T               r-1     alu ;
+: exit      return ;
+
+\ Elided words
+: dup@      [T]   T->N          d+1 alu ;
+: dup>r     T     T->R          r+1 alu ;
+: 2dupxor   T^N   T->N          d+1 alu ;
+: 2dup=     N==T  T->N          d+1 alu ;
+: !nip      T     N->[T]        d-1 alu ;
+: 2dup!     T     N->[T]            alu ;
+
+\ Words used to implement pick
+: up1       T                   d+1 alu ;
+: down1     T                   d-1 alu ;
+: copy      N                       alu ;

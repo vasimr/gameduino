@@ -921,7 +921,8 @@ module top(
     .pnDMA(pnDMA),
     .pnIRQ(pnIRQ)
   );
-
+  
+	// Internal Memory Bus arbitration
   wire host_busy = host_mem_wr | mem_rd;
   wire mem_wr =            host_busy ? host_mem_wr : j1_mem_wr;
   wire [7:0] mem_data_wr = host_busy ? host_mem_data_wr : j1_mem_dout;
