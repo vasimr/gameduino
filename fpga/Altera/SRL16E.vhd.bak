@@ -1,0 +1,41 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use IEEE.numeric_std.all;
+
+ENTITY SRL16E is
+	PORT(
+	Q : OUT STD_LOGIC; -- SRL data output
+	A0 : IN STD_LOGIC; -- Select[0] input
+	A1 : IN STD_LOGIC; -- Select[1] input
+	A2 : IN STD_LOGIC; -- Select[2] input
+	A3 : IN STD_LOGIC; -- Select[3] input
+	CE : IN STD_LOGIC; -- Clock enable input
+	CLK : IN STD_LOGIC; -- Clock input
+	D : IN STD_LOGIC -- SRL data input
+	);
+END ENTITY SRL16E;
+
+ARCHITECTURE RTL OF SRL16E IS
+	SIGNAL REG : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+	SIGNAL ADDR : STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => '0');
+BEGIN
+	ADDR <= A3 & A2 & A1 & A0;
+
+	PROCESS(CLK) IS
+	BEGIN
+		IF( RISING_EDGE(CLK) ) THEN
+			IF(CE = '1') THEN
+				
+			ELSE
+				REG <= REG;
+			END IF;
+		END IF;
+	END PROCESS;
+
+	PROCESS(ADDR) IS
+	BEGIN
+		Q <= REG( to_integer(unsigned( ADDR ) ) );
+	END PROCESS;
+	
+
+END ARCHITECTURE RTL;

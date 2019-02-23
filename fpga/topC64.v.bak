@@ -907,21 +907,22 @@ module top(
     .mem_clk(mem_clk),
     .paddr(paddr),
     .pdata(pdata),
-    .pRnW, //Read / nWrite signal
-    .pBA, //Bus available signal
-    .pnROMH, //nROMH signal
-    .pnROML, //nROML signal
-    .pnGAME, //nGAME signal
-    .pnEXROM, //nEXROM signal
-    .pnIO1, //nIO1 signal
-    .pnIO2, //nIO2 signal
-    .pnRST, //nReset signal
-    .pDOTCLK, //DOT CLK input
-    .pPHI2, //Phase 2 system clock 
-    .pnDMA, //nDMA signal
-    .pnIRQ //nIRQ signal
+    .pRnW(pRnW),
+    .pBA(pBA),
+    .pnROMH(pnROMH),
+    .pnROML(pnROML),
+    .pnGAME(pnGAME),
+    .pnEXROM(pnEXROM),
+    .pnIO1(pnIO1),
+    .pnIO2(pnIO2),
+    .pnRST(pnRST),
+    .pDOTCLK(pDOTCLK),
+    .pPHI2(pPHI2),
+    .pnDMA(pnDMA),
+    .pnIRQ(pnIRQ)
   );
-
+  
+	// Internal Memory Bus arbitration
   wire host_busy = host_mem_wr | mem_rd;
   wire mem_wr =            host_busy ? host_mem_wr : j1_mem_wr;
   wire [7:0] mem_data_wr = host_busy ? host_mem_data_wr : j1_mem_dout;
@@ -1789,7 +1790,7 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
   reg dna_read;
   reg dna_shift;
   reg dna_clk;
-  wire dna_dout;
+  wire dna_dout = 0;
   DNA_PORT dna(
     .DOUT(dna_dout),
     .DIN(0),

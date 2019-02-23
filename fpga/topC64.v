@@ -1,5 +1,6 @@
 `define YES
 `include "revision.v"
+`define ALTERA
 
 module lfsre(
     input clk,
@@ -862,7 +863,11 @@ module top(
   wire mem_rd;
 
   wire vga_clk;
+`ifdef ALTERA
+	Altera_clkDiv vga_ck_gen(.inclk0(clka), .c0(vga_clk) );
+`else
   ck_div #(.DIV_BY(2), .MULT_BY(4)) vga_ck_gen(.ck_in(clka), .ck_out(vga_clk));
+`endif
 
   wire [15:0] j1_insn;
   wire [12:0] j1_insn_addr;
@@ -1773,12 +1778,12 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
   reg icap_ce;
   reg icap_clk;
 
-  wire [7:0] icap_o;  // ICAP out
+  wire [7:0] icap_o = 0;  // ICAP out
   wire  icap_busy;
 
   reg j1_p2_dir = 1;    // pin defaults to input
   reg j1_p2_o = 1;
-
+/*
   ICAP_SPARTAN3A ICAP_SPARTAN3A_inst (
     .O(icap_o),
     .BUSY(icap_busy),
@@ -1786,18 +1791,18 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
     .WRITE(icap_write),
     .CE(icap_ce),
     .CLK(icap_clk));
-
-  reg dna_read;
-  reg dna_shift;
-  reg dna_clk;
-  wire dna_dout;
-  DNA_PORT dna(
+*/
+  reg dna_read = 0;
+  reg dna_shift = 0;
+  reg dna_clk = 0;
+  wire dna_dout = 0;
+  /*DNA_PORT dna(
     .DOUT(dna_dout),
     .DIN(0),
     .READ(dna_read),
     .SHIFT(dna_shift),
     .CLK(dna_clk));
-
+*/
   wire j1_wr;
 
   reg [8:0] YYLINE;

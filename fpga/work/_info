@@ -69,13 +69,13 @@ Z17 !s108 1550616719.000000
 Z18 o-work work
 Z19 tCvgOpt 0
 vdac
-Z20 !s110 1550714643
+Z20 !s110 1550917767
 !i10b 1
 !s100 _j`DZ6d0encRfWnInJ;CR2
 IE9VaoOmzHzZojnIOPhZYV2
 R14
 R3
-Z21 w1550714641
+Z21 w1550917764
 Z22 8E:/jfixelle/Documents/gameduino/fpga/topC64.v
 Z23 FE:/jfixelle/Documents/gameduino/fpga/topC64.v
 L0 787
@@ -83,7 +83,7 @@ R16
 r1
 !s85 0
 31
-Z24 !s108 1550714643.000000
+Z24 !s108 1550917767.000000
 Z25 !s107 revision.v|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
 Z26 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
 !i113 1
@@ -834,11 +834,52 @@ R26
 R18
 R19
 n@s@p@i_memory
+Esrl16e
+Z38 w1550925153
+Z39 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R1
+R2
+R3
+Z40 8E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
+Z41 FE:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
+l0
+L5
+VCb`k@^=2<1dJ6ad[?^FN_1
+!s100 6fPAHKizaanJM7MJG@]>@2
+R6
+32
+Z42 !s110 1550925156
+!i10b 1
+Z43 !s108 1550925156.000000
+Z44 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
+Z45 !s107 E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
+!i113 1
+R11
+R12
+Artl
+R39
+R1
+R2
+Z46 DEx4 work 6 srl16e 0 22 Cb`k@^=2<1dJ6ad[?^FN_1
+l21
+L18
+VmLiKWAGzZzi<0c3`kk`UR2
+!s100 DEHY8UDgQ2TfL9A>bDP;z0
+R6
+32
+R42
+!i10b 1
+R43
+R44
+R45
+!i113 1
+R11
+R12
 vtop
 R20
 !i10b 1
-!s100 RknWjLQF96QDhS1Q3C_:k2
-I3VHoMMEc<=DFP_hbKIO2W3
+!s100 0<TMGVUe]62N21il>4MG=2
+I2jo=kYTMUe_RbTK5<U]8[3
 R14
 R3
 R21
