@@ -1,6 +1,14 @@
 `define YES
 `include "revision.v"
 `define ALTERA
+`define GENERIC_RAM
+//`define NO_AUDIO
+
+
+// Compilation Notes:
+//		The 10M08 Contains 42 M9K Blocks
+//		The 10M16 contains 61 M9K Blocks
+//    The 10M25 contains 75 M9K Blocks
 
 module lfsre(
     input clk,
@@ -12,32 +20,6 @@ xnor(d0,lfsr[16],lfsr[13]);
 always @(posedge clk) begin
     lfsr <= {lfsr[15:0],d0};
 end
-endmodule
-
-module oldram256x1s(
-  input d,
-  input we,
-  input wclk,
-  input [7:0] a,
-  output o);
-
-  wire sel0 = (a[7:6] == 0);
-  wire o0;
-  RAM64X1S r0(.O(o0), .A0(a[0]), .A1(a[1]), .A2(a[2]), .A3(a[3]), .A4(a[4]), .A5(a[5]), .D(d), .WCLK(wclk), .WE(sel0 & we));
-
-  wire sel1 = (a[7:6] == 1);
-  wire o1;
-  RAM64X1S r1(.O(o1), .A0(a[0]), .A1(a[1]), .A2(a[2]), .A3(a[3]), .A4(a[4]), .A5(a[5]), .D(d), .WCLK(wclk), .WE(sel1 & we));
-
-  wire sel2 = (a[7:6] == 2);
-  wire o2;
-  RAM64X1S r2(.O(o2), .A0(a[0]), .A1(a[1]), .A2(a[2]), .A3(a[3]), .A4(a[4]), .A5(a[5]), .D(d), .WCLK(wclk), .WE(sel2 & we));
-
-  wire sel3 = (a[7:6] == 3);
-  wire o3;
-  RAM64X1S r3(.O(o3), .A0(a[0]), .A1(a[1]), .A2(a[2]), .A3(a[3]), .A4(a[4]), .A5(a[5]), .D(d), .WCLK(wclk), .WE(sel3 & we));
-
-  assign o = (a[7] == 0) ? ((a[6] == 0) ? o0 : o1) : ((a[6] == 0) ? o2 : o3);
 endmodule
 
 module ring64(
@@ -972,6 +954,67 @@ module top(
 
   // 11'b00001xxxxx0: low
   wire palette16_wr = (mem_wr & (mem_w_addr[14:11] == 5) & (mem_w_addr[10:6] == 1));
+  
+ `ifdef GENERIC_RAM 
+ 	wire [15:0] palette16Wire;
+	
+	sramb16DErsws #(
+	.ADDR_WIDTH(5),
+	.DATA_WIDTH(16)
+	) palette16 (
+		.DIA({mem_data_wr,mem_data_wr}),
+		.WEA(palette16_wr),
+		.CLKA(mem_clk),
+		.ADDRA(mem_addr[5:1]),
+		.BEA({mem_w_addr[0], ~mem_w_addr[0]}),
+		.DOA(palette16Wire),
+		
+		.DIB(0),
+		.WEB(0),
+		.CLKB(mem_clk),
+		.ADDRB(palette16_addr),
+		.DOB(palette16_data)
+	);
+	
+	assign palette16l_read = palette16Wire[7:0];
+	assign palette16h_read = palette16Wire[15:8];
+ /*
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(5)
+	) palette16l (
+		.DIA(mem_data_wr),
+      .WEA((mem_w_addr[0] == 0) & palette16_wr),
+      .CLKA(mem_clk),
+      .ADDRA(mem_addr[5:1]),
+      .DOA(palette16l_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(palette16_addr),
+      .DOB(palette16_data[7:0])
+	);
+	
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(5)
+	) palette16h (
+		.DIA(mem_data_wr),
+      .WEA((mem_w_addr[0] == 1) & palette16_wr),
+      .CLKA(mem_clk),
+      .ADDRA(mem_addr[5:1]),
+      .DOA(palette16h_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(palette16_addr),
+      .DOB(palette16_data[15:8])
+	);
+	*/
+ `else
+ 
   ram32x8d palette16l(
     .a(mem_addr[5:1]),
     .wclk(mem_clk),
@@ -979,7 +1022,9 @@ module top(
     .ad(mem_data_wr),
     .ao(palette16l_read),
     .b(palette16_addr),
-    .bo(palette16_data[7:0]));
+    .bo(palette16_data[7:0])
+	 );
+	 
   ram32x8d palette16h(
     .a(mem_addr[5:1]),
     .wclk(mem_clk),
@@ -987,7 +1032,9 @@ module top(
     .ad(mem_data_wr),
     .ao(palette16h_read),
     .b(palette16_addr),
-    .bo(palette16_data[15:8]));
+    .bo(palette16_data[15:8])
+	 );
+`endif
 
   wire [7:0] palette4l_read;
   wire [7:0] palette4h_read;
@@ -996,6 +1043,71 @@ module top(
 
   // 11'b00010xxxxx0: low
   wire palette4_wr = (mem_wr & (mem_w_addr[14:11] == 5) & (mem_w_addr[10:6] == 2));
+  
+`ifdef GENERIC_RAM
+  
+
+	wire [15:0] palette4Wire;
+	
+	sramb16DErsws #(
+	.ADDR_WIDTH(5),
+	.DATA_WIDTH(16)
+	) palette4 (
+		.DIA({mem_data_wr,mem_data_wr}),
+		.WEA(palette4_wr),
+		.CLKA(mem_clk),
+		.ADDRA(mem_addr[5:1]),
+		.BEA({mem_w_addr[0], ~mem_w_addr[0]}),
+		.DOA(palette4Wire),
+		
+		.DIB(0),
+		.WEB(0),
+		.CLKB(mem_clk),
+		.ADDRB(palette4_addr),
+		.DOB(palette4_data)
+	);
+	
+
+	assign palette4l_read = palette4Wire[7:0];
+	assign palette4h_read = palette4Wire[15:8];
+
+ /* 
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(5)
+	) palette4l (
+		.DIA(mem_data_wr),
+      .WEA((mem_w_addr[0] == 0) & palette4_wr),
+      .CLKA(mem_clk),
+      .ADDRA(mem_addr[5:1]),
+      .DOA(palette4l_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(palette4_addr),
+      .DOB(palette4_data[7:0])
+	);
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(5)
+	) palette4h (
+		.DIA(mem_data_wr),
+      .WEA((mem_w_addr[0] == 1) & palette4_wr),
+      .CLKA(mem_clk),
+      .ADDRA(mem_addr[5:1]),
+      .DOA(palette4h_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(palette4_addr),
+      .DOB(palette4_data[15:8])
+	);
+	*/
+	
+`else
+
   ram32x8d palette4l(
     .a(mem_addr[5:1]),
     .wclk(mem_clk),
@@ -1003,7 +1115,9 @@ module top(
     .ad(mem_data_wr),
     .ao(palette4l_read),
     .b(palette4_addr),
-    .bo(palette4_data[7:0]));
+    .bo(palette4_data[7:0])
+	 );
+	 
   ram32x8d palette4h(
     .a(mem_addr[5:1]),
     .wclk(mem_clk),
@@ -1011,7 +1125,9 @@ module top(
     .ad(mem_data_wr),
     .ao(palette4h_read),
     .b(palette4_addr),
-    .bo(palette4_data[15:8]));
+    .bo(palette4_data[15:8])
+	 );
+`endif
 
   // Generate CounterX and CounterY
   // A single line is 1040 clocks.  Line pair is 2080 clocks.
@@ -1184,7 +1300,7 @@ module top(
     end
   end
 
-  always @(mem_data_rd_reg)
+  always @(mem_data_rd_reg,mem_r_addr[10:0])
   begin
     casex (mem_r_addr[10:0])
     11'h000: mem_data_rd_reg <= 8'h6d;  // Gameduino ident
@@ -1245,6 +1361,78 @@ module top(
   wire [7:0] voicefh_data;
   wire [5:0] voice_addr = mem_addr[7:2];
 
+`ifndef NO_AUDIO
+`ifdef GENERIC_RAM
+  
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(6)
+	) voicefl (
+		.DIA(mem_data_wr),
+      .WEA(voicefl_wr),
+      .CLKA(mem_clk),
+      .ADDRA(voice_addr),
+      .DOA(voicefl_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(viN),
+      .DOB(voicefl_data),
+	);
+	
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(6)
+	) voicefh (
+		.DIA(mem_data_wr),
+      .WEA(voicefh_wr),
+      .CLKA(mem_clk),
+      .ADDRA(voice_addr),
+      .DOA(voicefh_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(viN),
+      .DOB(voicefh_data),
+	);
+	
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(6)
+	) voicela (
+		.DIA(mem_data_wr),
+      .WEA(voicela_wr),
+      .CLKA(mem_clk),
+      .ADDRA(voice_addr),
+      .DOA(voicela_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(viN),
+      .DOB(voicela_data),
+	);
+	
+	srambDrsws #(
+		.DATA_WIDTH(8),
+		.ADDR_WIDTH(6)
+	) voicera (
+		.DIA(mem_data_wr),
+      .WEA(voicera_wr),
+      .CLKA(mem_clk),
+      .ADDRA(voice_addr),
+      .DOA(voicera_read),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(mem_clk),
+      .ADDRB(viN),
+      .DOB(voicera_data),
+	);
+`else
+
   ram64x8d voicefl(
     .a(voice_addr),
     .wclk(mem_clk),
@@ -1280,6 +1468,9 @@ module top(
     .ao(voicera_read),
     .b(viN),
     .bo(voicera_data));
+	 
+`endif
+`endif
 
   assign screenshot_reset = mem_wr & (mem_w_addr[14:11] == 5) & (mem_w_addr[10:0] == 11'h01f);
   always @(posedge mem_clk)
@@ -1437,10 +1628,27 @@ module top(
   wire [4:0] s2_fullness;
   wire s3_read;
   wire [40:0] s2_out;
+
+`ifdef GENERIC_RAM
+  fifo2 #(
+	.FIFO_DATA_WIDTH(40), 
+	.FIFO_BUFFER_SIZE(16) 
+	) s2 (
+	.rd_clk(vga_clk),
+	.wr_clk(vga_clk),
+	.reset(0), 
+	.rd_en(s3_read), 
+	.wr_en(s1_valid), 
+	.din({s1_id, s1_out}), 
+	.dout(s2_out),
+	.full(s2_fullness)
+	);
+`else
   fifo #(40) s2(.clk(vga_clk),
                 .wr(s1_valid), .datain({s1_id, s1_out}),
                 .rd(s3_read), .dataout(s2_out),
                 .fullness(s2_fullness));
+`endif
   assign s2_room = (s2_fullness < 14);
 
   wire s2_valid = s2_fullness != 0;
@@ -1571,6 +1779,25 @@ module top(
   wire [14:0] comp_out;
   // Port A is the write, or read when screenshot is ready
   // Port B is scanout
+  `ifdef GENERIC_RAM
+  
+	srambDrsws #(
+		.DATA_WIDTH(18),
+		.ADDR_WIDTH(10)
+	) composer (
+		.DIA(comp_part1 ? char_final : s4_out),
+      .WEA(!ss & (comp_part1 | sprite_write)),
+      .CLKA(vga_clk),
+      .ADDRA(ss ? {screenshot_yy[0], mem_r_addr[9:1]} : {comp_read, comp_write[8:0]}),
+      .DOA(screenshot_rdHL),
+
+      .DIB(8'b00000000),
+      .WEB(0),
+      .CLKB(vga_clk),
+      .ADDRB({!comp_read, comp_scanout}),
+      .DOB(comp_out)
+	);
+`else
   RAMB16_S18_S18
   composer(
     .DIPA(0),
@@ -1591,6 +1818,7 @@ module top(
     .DOB(comp_out),
     .SSRB(0)
   );
+  `endif
   assign screenshot_rd = mem_r_addr[0] ? screenshot_rdHL[15:8] : screenshot_rdHL[7:0];
 `endif
   assign {bg_r,bg_g,bg_b} = comp_out;
@@ -1602,9 +1830,12 @@ module top(
   // Signal generation
 
   wire [16:0] lfsr;
+  
+`ifndef NO_AUDIO
   lfsre lfsr0(
     .clk(vga_clk),
     .lfsr(lfsr));
+`endif
 
   wire [1:0] dith;
   // 0 2
@@ -1648,7 +1879,7 @@ module top(
   wire [6:0] hsin;
   wire [6:0] wavecounter;
   wire [6:0] note = wavecounter[6:0];
-
+`ifndef NO_AUDIO
 `ifdef YES
 RAM64X1S #(.INIT(64'b0000000000110101100010001111010010010111100010001101011000000000) /* 0 */
 ) sin0(.O(hsin[0]), .A0(note[0]), .A1(note[1]), .A2(note[2]), .A3(note[3]), .A4(note[4]), .A5(note[5]), .D(0), .WCLK(vga_clk), .WE(0));
@@ -1673,6 +1904,7 @@ ROM64X1 #(.INIT(64'b000111001110001111000011111111111111111111100001111000111001
 ROM64X1 #(.INIT(64'b0000001111100000001111111111111111111111111111100000001111100000) /* 5 */) sin5(.O(hsin[5]), .A0(note[0]), .A1(note[1]), .A2(note[2]), .A3(note[3]), .A4(note[4]), .A5(note[5]));
 ROM64X1 #(.INIT(64'b0000000000011111111111111111111111111111111111111111110000000000) /* 6 */) sin6(.O(hsin[6]), .A0(note[0]), .A1(note[1]), .A2(note[2]), .A3(note[3]), .A4(note[4]), .A5(note[5]));
 `endif
+`endif
 
   wire signed [7:0] sin = note[6] ? (8'h00 - hsin) : hsin;
 
@@ -1686,7 +1918,8 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
   wire oldpulse;
   wire [6:0] nextwavecounter = voiceshape ? lfsr : (wavecounter + (highfreq ? 2 : 1));
   wire [6:0] _wavecounter = (newpulse != oldpulse) ? nextwavecounter : wavecounter;
-
+  
+`ifndef NO_AUDIO
 `ifdef NELLY
   ram64x8s voicestate(
     .a(viN),
@@ -1707,6 +1940,7 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
   ring64 vs7(.clk(vga_clk), .i(vsi[7]), .o(vso[7]));
   assign wavecounter = vso[7:1];
   assign oldpulse = vso[0];
+`endif
 `endif
 
   wire signed [8:0] lamp = voicela_data;
@@ -1884,8 +2118,34 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
        .pause(host_busy | (busyhh != 0))
        );
 
+		  wire jinsn_wr = (mem_wr & (mem_w_addr[14:8] == 6'h2b));
   // 0x2b00: j1 insn RAM
-  wire jinsn_wr = (mem_wr & (mem_w_addr[14:8] == 6'h2b));
+`ifdef GENERIC_RAM
+	wire [15:0] j1Wire;
+	
+	sramb16DErsws #(
+	.ADDR_WIDTH(10),
+	.DATA_WIDTH(16)
+	) jinsn (
+		.DIA({mem_data_wr,mem_data_wr}),
+		.WEA(jinsn_wr),
+		.CLKA(vga_clk),
+		.ADDRA(mem_addr[7:1]),
+		.BEA({mem_w_addr[0], ~mem_w_addr[0]}),
+		.DOA(j1Wire),
+		
+		.DIB(0),
+		.WEB(0),
+		.CLKB(vga_clk),
+		.ADDRB(j1_insn_addr),
+		.DOB(j1_insn)
+	);
+	
+	assign j1insnl_read = j1Wire[7:0];
+	assign j1insnh_read = j1Wire[15:8];
+	
+`else
+ 
   RAM_CODEL jinsnl(.b(j1_insn_addr), .bo(j1_insn[7:0]),
     .a(mem_addr[7:1]),
     .wclk(vga_clk),
@@ -1898,6 +2158,7 @@ ROM64X1 #(.INIT(64'b000000000001111111111111111111111111111111111111111111000000
     .wea((mem_w_addr[0] == 1) & jinsn_wr),
     .ad(mem_data_wr),
     .ao(j1insnh_read));
+`endif
 
   assign flashMOSI = pin2j ? j1_flashMOSI : MOSI;
   assign flashSCK = pin2j ? j1_flashSCK : SCK;

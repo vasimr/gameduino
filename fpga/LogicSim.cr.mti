@@ -1,10 +1,51 @@
-E:/jfixelle/Documents/gameduino/fpga/C64Interface.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/C64Interface.vhd
+E:/jfixelle/Documents/gameduino/fpga/sramb16DE.sv {1 {vlog -work work -sv -stats=none {E:\jfixelle\Documents\gameduino\fpga\sramb16DE.sv}
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module sramb16DErsws
+-- Compiling module sramb32DErsws
+-- Compiling module sramb16DEraws
+
+Top level modules:
+	sramb16DErsws
+	sramb32DErsws
+	sramb16DEraws
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/ck_div.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/ck_div.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module ck_div
+
+Top level modules:
+	ck_div
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/srambD.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/srambD.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module srambDrsws
+-- Compiling module srambDraws
+-- Compiling module srambDS
+
+Top level modules:
+	srambDrsws
+	srambDraws
+	srambDS
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Compiling entity C64Interface
--- Compiling architecture RTL of C64Interface
+-- Loading package NUMERIC_STD
+-- Compiling entity SRL16E
+-- Compiling architecture RTL of SRL16E
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/sramb.vhd {1 {vcom -work work -2002 -explicit -stats=none {E:\jfixelle\Documents\gameduino\fpga\sramb.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity sramb
+-- Compiling architecture rsws of sramb
+-- Compiling architecture raws of sramb
+-- Loading entity sramb
 
 } {} {}} E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -21,37 +62,6 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	j0
-
-} {} {}} E:/jfixelle/Documents/gameduino/fpga/generated.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/generated.v
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module RAM_SPRIMG
--- Compiling module RAM_PICTURE
--- Compiling module RAM_CHR
--- Compiling module RAM_PAL
--- Compiling module RAM_SPRVAL
--- Compiling module RAM_SPRPAL
--- Compiling module RAM_CODEL
--- Compiling module RAM_CODEH
-
-Top level modules:
-	RAM_SPRIMG
-	RAM_PICTURE
-	RAM_CHR
-	RAM_PAL
-	RAM_SPRVAL
-	RAM_SPRPAL
-	RAM_CODEL
-	RAM_CODEH
-
-} {} {}} E:/jfixelle/Documents/gameduino/fpga/revision.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/revision.v
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
-
-} {} {}} E:/jfixelle/Documents/gameduino/fpga/testtop.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/testtop.v
-Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module top
-
-Top level modules:
-	top
 
 } {} {}} E:/jfixelle/Documents/gameduino/fpga/top.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/top.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -94,12 +104,37 @@ Top level modules:
 	SPI_memory
 	top
 
-} {} {}} E:/jfixelle/Documents/gameduino/fpga/ck_div.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/ck_div.v
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/revision.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/revision.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
--- Compiling module ck_div
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/sram.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/sram.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity sram
+-- Compiling architecture rsws of sram
+-- Loading entity sramb
+-- Compiling architecture raws of sram
+-- Loading entity sram
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/fifo2.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/fifo2.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_textio
+-- Compiling entity fifo2
+-- Compiling architecture behavior of fifo2
+
+} {} {}} E:/jfixelle/Documents/gameduino/fpga/testtop.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/testtop.v
+Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
+-- Compiling module top
 
 Top level modules:
-	ck_div
+	top
 
 } {} {}} E:/jfixelle/Documents/gameduino/fpga/fifo.v {1 {vlog -work work -stats=none E:/jfixelle/Documents/gameduino/fpga/fifo.v
 Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  5 2016
@@ -107,14 +142,5 @@ Model Technology ModelSim - Intel FPGA Edition vlog 10.5b Compiler 2016.10 Oct  
 
 Top level modules:
 	fifo
-
-} {} {}} E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd {1 {vcom -work work -2002 -explicit -stats=none E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity SRL16E
--- Compiling architecture RTL of SRL16E
 
 } {} {}}

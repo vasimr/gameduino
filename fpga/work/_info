@@ -69,23 +69,23 @@ Z17 !s108 1550616719.000000
 Z18 o-work work
 Z19 tCvgOpt 0
 vdac
-Z20 !s110 1550917767
+Z20 !s110 1550992743
 !i10b 1
-!s100 _j`DZ6d0encRfWnInJ;CR2
-IE9VaoOmzHzZojnIOPhZYV2
+!s100 ]LQZX<gROMP[EWn`Z67mo1
+IOjzQoDza;h_88kPdO697O0
 R14
 R3
-Z21 w1550917764
-Z22 8E:/jfixelle/Documents/gameduino/fpga/topC64.v
-Z23 FE:/jfixelle/Documents/gameduino/fpga/topC64.v
-L0 787
+Z21 w1550992740
+Z22 8E:\jfixelle\Documents\gameduino\fpga\topC64.v
+Z23 FE:\jfixelle\Documents\gameduino\fpga\topC64.v
+L0 775
 R16
 r1
 !s85 0
 31
-Z24 !s108 1550917767.000000
-Z25 !s107 revision.v|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
-Z26 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
+Z24 !s108 1550992743.000000
+Z25 !s107 revision.v|E:\jfixelle\Documents\gameduino\fpga\topC64.v|
+Z26 !s90 -reportprogress|300|-work|work|-stats=none|E:\jfixelle\Documents\gameduino\fpga\topC64.v|
 !i113 1
 R18
 R19
@@ -110,6 +110,49 @@ R17
 !i113 1
 R18
 R19
+Efifo2
+Z27 w1550992186
+Z28 DPx4 ieee 16 std_logic_textio 0 22 V5TSK`;aJKC<l]CEg1>mz1
+Z29 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R1
+R2
+R3
+Z30 8E:/jfixelle/Documents/gameduino/fpga/fifo2.vhd
+Z31 FE:/jfixelle/Documents/gameduino/fpga/fifo2.vhd
+l0
+L20
+V1H[a[BBB:ha8YaHh]HU<M1
+!s100 AObS2EhjZheoe8NX4<Ff?3
+R6
+32
+Z32 !s110 1550992188
+!i10b 1
+Z33 !s108 1550992188.000000
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/fifo2.vhd|
+Z35 !s107 E:/jfixelle/Documents/gameduino/fpga/fifo2.vhd|
+!i113 1
+R11
+R12
+Abehavior
+R28
+R29
+R1
+R2
+DEx4 work 5 fifo2 0 22 1H[a[BBB:ha8YaHh]HU<M1
+l129
+L41
+VD3fcdZ6nhO[Uk779^WSDM3
+!s100 9U?G@nKIA6EnNZGUm4Uf_1
+R6
+32
+R32
+!i10b 1
+R33
+R34
+R35
+!i113 1
+R11
+R12
 vj0
 R13
 !i10b 1
@@ -134,14 +177,14 @@ R19
 vlfsre
 R20
 !i10b 1
-!s100 9OL_n;T?^`83z^jP;1VAU0
-IPXUDeA`OFJkJgIRoG[n`P2
+!s100 fdcSe7Z3=W779=9PZkMGZ0
+I=[E_X0Oi[W>PRkT5TCI6`0
 R14
 R3
 R21
 R22
 R23
-L0 4
+L0 13
 R16
 r1
 !s85 0
@@ -153,132 +196,132 @@ R26
 R18
 R19
 vmRAM128X1D
-R20
+Z36 !s110 1550917767
 !i10b 1
 !s100 _A>=Vk:]Z==cRD<h6PY2S3
 IS]NHVEoC]OTKk6o6`B0eQ1
 R14
 R3
-R21
-R22
-R23
+Z37 w1550917764
+Z38 8E:/jfixelle/Documents/gameduino/fpga/topC64.v
+Z39 FE:/jfixelle/Documents/gameduino/fpga/topC64.v
 L0 281
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+Z40 !s108 1550917767.000000
+Z41 !s107 revision.v|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
+Z42 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/topC64.v|
 !i113 1
 R18
 R19
 nm@r@a@m128@x1@d
 vmRAM256X1D
-R20
+R36
 !i10b 1
 !s100 f4TmG14zQDOAoj5WlQ8Gf1
 IZzJF?;]TKU8[XoWJTG`Yn3
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 352
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 nm@r@a@m256@x1@d
 vmRAM32X1D
-R20
+R36
 !i10b 1
 !s100 855ZXU7Y:To85=eGkT7==2
 I@<mK3NQ1;b:^LX;i@mXe21
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 159
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 nm@r@a@m32@x1@d
 vmRAM64X1D
-R20
+R36
 !i10b 1
 !s100 QR;:VhX9MV?LG85WfR>lz1
 I>J=IiBmb`Ii0=KYoLT]L90
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 217
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 nm@r@a@m64@x1@d
 voldram256x1s
-R20
+R36
 !i10b 1
 !s100 UdHQ<H2lFW<o_j03R7Vg52
 IzNNo9<XDe2Xm:FzEK1N>f1
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 16
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 Eparallelinterface
-Z27 w1550709253
+Z43 w1550709253
 R1
 R2
 R3
-Z28 8E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
-Z29 FE:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
+Z44 8E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
+Z45 FE:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd
 l0
 L4
 Vdmhz@HJB4Lg`^Pg1dO80;3
 !s100 `damBfJ:VXEzGQG<^jFVi0
 R6
 32
-Z30 !s110 1550709307
+Z46 !s110 1550709307
 !i10b 1
-Z31 !s108 1550709307.000000
-Z32 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd|
-Z33 !s107 E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd|
+Z47 !s108 1550709307.000000
+Z48 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd|
+Z49 !s107 E:/jfixelle/Documents/gameduino/fpga/ParallelInterface.vhd|
 !i113 1
 R11
 R12
@@ -292,326 +335,326 @@ V_IaPVgoa@eh0Yb?ED5hfe1
 !s100 jEMYIg=0E[6KO2^NENUdA2
 R6
 32
-R30
+R46
 !i10b 1
-R31
-R32
-R33
+R47
+R48
+R49
 !i113 1
 R11
 R12
 vram128x8rd
-R20
+R36
 !i10b 1
 !s100 E1j4j>UVbFJ`]QFkDKUh@3
 I^M7HK`eXKiaAO>=AC0:ZN0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 531
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram256x1s
-R20
+R36
 !i10b 1
 !s100 GZZd^nBefK2A^?YeiHCh^0
 IzUKYRkT>3eTmhXd^VUf3Y0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 54
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram256x8rd
-R20
+R36
 !i10b 1
 !s100 @lgV]2bSm4GL^o3URQ1TB2
 ILVc[z^oOZKhl6I:9O:06S0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 574
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram256x8s
-R20
+R36
 !i10b 1
 !s100 D[1WURDH=^AAMfcQRD2ne1
 ISYZh37baQ1^k^@N^klJ`E2
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 112
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram32x8d
-R20
+R36
 !i10b 1
 !s100 E6^LnK^Qd8ZMkaGki5AkS2
 IQZUW<PM2fL_oiDz<9_Qea0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 425
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram32x8rd
-R20
+R36
 !i10b 1
 !s100 [Jm2>Y;5kNG^EkXjNifd]0
 I22Jkm`5S59O:9m:dzLi150
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 492
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram32x8s
-R20
+R36
 !i10b 1
 !s100 aFOHA[2XeAVYmBFUA_6R=0
 I`:fT0hOK11QMaBOzE6VYK2
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 131
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram400x1s
-R20
+R36
 !i10b 1
 !s100 3HL4f17N>99lO4K:iTeNi2
 IQL>56:7A6HYFoaV0SHHl^0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 92
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram400x7s
-R20
+R36
 !i10b 1
 !s100 1_1b:6A^jXfaM4bojB7B00
 I`5MoEJo4W`9>e^[<P5I9E3
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 676
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram400x8s
-R20
+R36
 !i10b 1
 !s100 Gi6jTcPFUKQHW9cS74;kh1
 IZ0YV;:9ZJZLQF`BkKz^?b3
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 657
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram400x9s
-R20
+R36
 !i10b 1
 !s100 9<0?9d5;i=B0?:m1gGKO92
 I^TWhIOBRb6z`8YCT=J[Bb1
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 638
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram448x1s
-R20
+R36
 !i10b 1
 !s100 0c;7iY3Z<GSA@TlGSX:Co0
 Iml7iz0>RDNP;0zDa_fJKj3
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 73
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram448x9s
-R20
+R36
 !i10b 1
 !s100 1]DeTmgjZCJZdb[RNNPi;0
 I7RG_]KlOeT`8PQ;Aoc?Ak1
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 619
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram64x8d
-R20
+R36
 !i10b 1
 !s100 7XLHhz6PZZl7`d1cjIBW>0
 IR2b>cjSBD?IWD<<JkahFo0
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 457
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
 vram64x8s
-R20
+R36
 !i10b 1
 !s100 d82Ck>FRTCU9Dz2_Ya6VV3
 IG_?RhO=D1[zn=LZjWABEC1
 R14
 R3
-R21
-R22
-R23
+R37
+R38
+R39
 L0 145
 R16
 r1
 !s85 0
 31
-R24
-R25
-R26
+R40
+R41
+R42
 !i113 1
 R18
 R19
@@ -623,16 +666,16 @@ I=PTID2<<]COYKXURh1OgP0
 R14
 R3
 R15
-Z34 8E:/jfixelle/Documents/gameduino/fpga/generated.v
-Z35 FE:/jfixelle/Documents/gameduino/fpga/generated.v
+Z50 8E:/jfixelle/Documents/gameduino/fpga/generated.v
+Z51 FE:/jfixelle/Documents/gameduino/fpga/generated.v
 L0 872
 R16
 r1
 !s85 0
 31
 R17
-Z36 !s107 E:/jfixelle/Documents/gameduino/fpga/generated.v|
-Z37 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/generated.v|
+Z52 !s107 E:/jfixelle/Documents/gameduino/fpga/generated.v|
+Z53 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/generated.v|
 !i113 1
 R18
 R19
@@ -645,16 +688,16 @@ IinOLE>IMOe@N]3`B=XUXA3
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 1388
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -667,16 +710,16 @@ I2jilj6;Je`5eGAPfi4>^j1
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 1184
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -689,16 +732,16 @@ IAX`nKUljLOdL8YFbNooL31
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 1058
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -711,16 +754,16 @@ IYY2bWBGkgNZ97c>RniZoH3
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 686
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -733,16 +776,16 @@ I`BaDfT^lYbGFfO2PZ@EEU0
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 2
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -755,16 +798,16 @@ I[Q3;KcYAl6OkUf6O1BN9@3
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 1142
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -777,16 +820,16 @@ I[o9C5jnUbU@=Qd[ghHj4^1
 R14
 R3
 R15
-R34
-R35
+R50
+R51
 L0 1100
 R16
 r1
 !s85 0
 31
 R17
-R36
-R37
+R52
+R53
 !i113 1
 R18
 R19
@@ -794,14 +837,14 @@ n@r@a@m_@s@p@r@v@a@l
 vring64
 R20
 !i10b 1
-!s100 JNbNYj7EO_0FLRVmzA7`M2
-IIH2D;m3_`mUd3iWa7h>`B3
+!s100 HT2SBSOHB6cH2`mNA69VG2
+I47lBAF6dn<GF7kJVcYjK20
 R14
 R3
 R21
 R22
 R23
-L0 42
+L0 25
 R16
 r1
 !s85 0
@@ -815,14 +858,14 @@ R19
 vSPI_memory
 R20
 !i10b 1
-!s100 P[z`1UhobJP9C>Z[8I@H01
-I=?NnKWE`^5oReoNI`EkQk3
+!s100 [_UkcHTa:GDMO2m96[gWo2
+If_@KMCm026H`;lc^n3m:G3
 R14
 R3
 R21
 R22
 R23
-L0 700
+L0 688
 R16
 r1
 !s85 0
@@ -834,58 +877,371 @@ R26
 R18
 R19
 n@s@p@i_memory
-Esrl16e
-Z38 w1550925153
-Z39 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Esram
+Z54 w1550964879
+R29
 R1
 R2
 R3
-Z40 8E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
-Z41 FE:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
+Z55 8E:/jfixelle/Documents/gameduino/fpga/sram.vhd
+Z56 FE:/jfixelle/Documents/gameduino/fpga/sram.vhd
+l0
+L11
+Vg1_2fNMcXU^Yo<3?3gneg3
+!s100 Z3z8LY?1DQE17bzUXNHi_1
+R6
+32
+Z57 !s110 1550973223
+!i10b 1
+Z58 !s108 1550973223.000000
+Z59 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/sram.vhd|
+Z60 !s107 E:/jfixelle/Documents/gameduino/fpga/sram.vhd|
+!i113 1
+R11
+R12
+Araws
+Z61 DEx4 work 5 sramb 0 22 ad0ABTI_EYFcd82akofNO2
+R29
+R1
+R2
+Z62 DEx4 work 4 sram 0 22 g1_2fNMcXU^Yo<3?3gneg3
+l132
+L92
+VWe>:ml7YAHKgLd=S`WU<Y1
+!s100 ^0N@<@n:lIiBZMo?OikeI0
+R6
+32
+R57
+!i10b 1
+R58
+R59
+R60
+!i113 1
+R11
+R12
+Arsws
+R61
+R29
+R1
+R2
+R62
+l68
+L28
+VVBjKMB0HZ[DHWiPoDFWK62
+!s100 [<657LI^BiZ@Zzm<Nnl?g1
+R6
+32
+R57
+!i10b 1
+R58
+R59
+R60
+!i113 1
+R11
+R12
+Esramb
+Z63 w1550973728
+R29
+R1
+R2
+R3
+Z64 8E:\jfixelle\Documents\gameduino\fpga\sramb.vhd
+Z65 FE:\jfixelle\Documents\gameduino\fpga\sramb.vhd
+l0
+L10
+Vad0ABTI_EYFcd82akofNO2
+!s100 cgajTI>m1bRkBod8Xf_D32
+R6
+32
+Z66 !s110 1550973730
+!i10b 1
+Z67 !s108 1550973730.000000
+Z68 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:\jfixelle\Documents\gameduino\fpga\sramb.vhd|
+Z69 !s107 E:\jfixelle\Documents\gameduino\fpga\sramb.vhd|
+!i113 1
+R11
+R12
+Araws
+R29
+R1
+R2
+R61
+l60
+L54
+VAM6@jDM_2_5lKH47LP^@?0
+!s100 [>9PQiaGSR@jNdnJ7d6eg2
+R6
+32
+R66
+!i10b 1
+R67
+R68
+R69
+!i113 1
+R11
+R12
+Arsws
+R29
+R1
+R2
+R61
+l33
+L27
+VJ3U<?WLjk7;]EW8Afh@Nl3
+!s100 9BS1_<ljh>bolEc><e?4b0
+R6
+32
+R66
+!i10b 1
+R67
+R68
+R69
+!i113 1
+R11
+R12
+vsramb16DEraws
+Z70 DXx6 sv_std 3 std 0 22 AD7iAPLo6nTIKk<N0eo=D3
+Z71 !s110 1550996196
+!i10b 1
+!s100 nF^0bR3P@Uh9YK:53H5J:3
+Id6Fj46hNiB9J@6Bm9UaRm0
+R14
+Z72 !s105 sramb16DE_sv_unit
+S1
+R3
+Z73 w1550996194
+Z74 8E:\jfixelle\Documents\gameduino\fpga\sramb16DE.sv
+Z75 FE:\jfixelle\Documents\gameduino\fpga\sramb16DE.sv
+L0 101
+R16
+r1
+!s85 0
+31
+Z76 !s108 1550996196.000000
+Z77 !s107 E:\jfixelle\Documents\gameduino\fpga\sramb16DE.sv|
+Z78 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:\jfixelle\Documents\gameduino\fpga\sramb16DE.sv|
+!i113 1
+Z79 o-work work -sv
+R19
+nsramb16@d@eraws
+vsramb16DErsws
+R70
+R71
+!i10b 1
+!s100 `a6`XnMoE]K]__iH<A15i1
+I=BZ3VXB8_YibCNZOJmmOb0
+R14
+R72
+S1
+R3
+R73
+R74
+R75
+L0 1
+R16
+r1
+!s85 0
+31
+R76
+R77
+R78
+!i113 1
+R79
+R19
+nsramb16@d@ersws
+vsramb32DErsws
+R70
+R71
+!i10b 1
+!s100 <0AiSM9^MG5k2[E7d8CNL0
+In;N[@bJ>0ZC<JGQnG2GLX0
+R14
+R72
+S1
+R3
+R73
+R74
+R75
+Z80 L0 50
+R16
+r1
+!s85 0
+31
+R76
+R77
+R78
+!i113 1
+R79
+R19
+nsramb32@d@ersws
+Esrambd
+w1550973676
+R29
+R1
+R2
+R3
+R64
+R65
+l0
+L86
+VNTZ<h1VHY=Y>C8dDkS8<>0
+!s100 hY?cGE222NMRVjV]Eh7hH1
+R6
+32
+!s110 1550973678
+!i10b 1
+!s108 1550973678.000000
+R68
+R69
+!i113 1
+R11
+R12
+vsrambD
+!s110 1550978134
+!i10b 1
+!s100 k>KjRVYL]o6DkLMDCYo7Z3
+I7?Pkf[kaZM;L=?`]j160I3
+R14
+R3
+w1550978132
+Z81 8E:/jfixelle/Documents/gameduino/fpga/srambD.v
+Z82 FE:/jfixelle/Documents/gameduino/fpga/srambD.v
+L0 1
+R16
+r1
+!s85 0
+31
+!s108 1550978134.000000
+Z83 !s107 E:/jfixelle/Documents/gameduino/fpga/srambD.v|
+Z84 !s90 -reportprogress|300|-work|work|-stats=none|E:/jfixelle/Documents/gameduino/fpga/srambD.v|
+!i113 1
+R18
+R19
+nsramb@d
+vsrambDraws
+R70
+Z85 !s110 1550993790
+!i10b 1
+!s100 nee11iEQ[gWMGgkNSWSM01
+IOo3l_:H>n463l;nonFX_i0
+R14
+R72
+S1
+R3
+Z86 w1550993788
+Z87 8E:/jfixelle/Documents/gameduino/fpga/sramb16DE.sv
+Z88 FE:/jfixelle/Documents/gameduino/fpga/sramb16DE.sv
+R80
+R16
+r1
+!s85 0
+31
+Z89 !s108 1550993790.000000
+Z90 !s107 E:/jfixelle/Documents/gameduino/fpga/sramb16DE.sv|
+Z91 !s90 -reportprogress|300|-work|work|-sv|-stats=none|E:/jfixelle/Documents/gameduino/fpga/sramb16DE.sv|
+!i113 1
+R79
+R19
+nsramb@draws
+vsrambDrsws
+R70
+R85
+!i10b 1
+!s100 iaRI>VIE[lAD2NTCGR;LA0
+I4oCIb6e`A9GKCP7YUMm<U0
+R14
+R72
+S1
+R3
+R86
+R87
+R88
+L0 1
+R16
+r1
+!s85 0
+31
+R89
+R90
+R91
+!i113 1
+R79
+R19
+nsramb@drsws
+vsrambDS
+!s110 1550992986
+!i10b 1
+!s100 4LedPZ16=hnk_EkU9?ZjE3
+I>Vn??O>mU4DS]?AQLfl<c2
+R14
+R3
+w1550991764
+R81
+R82
+L0 98
+R16
+r1
+!s85 0
+31
+!s108 1550992986.000000
+R83
+R84
+!i113 1
+R18
+R19
+nsramb@d@s
+Esrl16e
+Z92 w1550925153
+R29
+R1
+R2
+R3
+Z93 8E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
+Z94 FE:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd
 l0
 L5
 VCb`k@^=2<1dJ6ad[?^FN_1
 !s100 6fPAHKizaanJM7MJG@]>@2
 R6
 32
-Z42 !s110 1550925156
+Z95 !s110 1550925156
 !i10b 1
-Z43 !s108 1550925156.000000
-Z44 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
-Z45 !s107 E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
+Z96 !s108 1550925156.000000
+Z97 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
+Z98 !s107 E:/jfixelle/Documents/gameduino/fpga/Altera/SRL16E.vhd|
 !i113 1
 R11
 R12
 Artl
-R39
+R29
 R1
 R2
-Z46 DEx4 work 6 srl16e 0 22 Cb`k@^=2<1dJ6ad[?^FN_1
+DEx4 work 6 srl16e 0 22 Cb`k@^=2<1dJ6ad[?^FN_1
 l21
 L18
 VmLiKWAGzZzi<0c3`kk`UR2
 !s100 DEHY8UDgQ2TfL9A>bDP;z0
 R6
 32
-R42
+R95
 !i10b 1
-R43
-R44
-R45
+R96
+R97
+R98
 !i113 1
 R11
 R12
 vtop
 R20
 !i10b 1
-!s100 0<TMGVUe]62N21il>4MG=2
-I2jo=kYTMUe_RbTK5<U]8[3
+!s100 aM^hF=3^jfR^PO1nJ6e6<1
+IbYBYD[AQNDI<DGFd_GoGn0
 R14
 R3
 R21
 R22
 R23
-L0 813
+L0 801
 R16
 r1
 !s85 0
@@ -893,6 +1249,27 @@ r1
 R24
 R25
 R26
+!i113 1
+R18
+R19
+vtrue_dual_port_ram_single_clock
+!s110 1550974156
+!i10b 1
+!s100 [Mj==IG@MTj4W=UTQWXdQ3
+I1Qn7BZg:7e_=d^m[zC5ia0
+R14
+R3
+w1550974152
+R81
+R82
+L0 1
+R16
+r1
+!s85 0
+31
+!s108 1550974156.000000
+R83
+R84
 !i113 1
 R18
 R19

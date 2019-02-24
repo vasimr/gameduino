@@ -48,7 +48,7 @@ begin
 	--   $A000-$BFFF	1	0	1	0	$2000-$3FFF	
 	--   $E000-$FFFF	1	0	0	1	$2000-$3FFF
 
-	sel_proc : process( pAddr, pnROMH, pnROML, pnEXROM, pnGAME, pBA) is
+	sel_proc : process( pAddr, pnROMH, pnROML, pnEXROM, pnGAME, pBA, pRnW, ren) is
 		variable r1 : std_logic := '0';
 		variable r2 : std_logic := '0';
 		variable r3 : std_logic := '0';
@@ -90,7 +90,7 @@ begin
 	data_w <= pdata;
 	
 	-- tri-state process
-	tri_proc : process( oe ) is
+	tri_proc : process( oe, data_r ) is
 	begin
 		if( oe = '1' ) then
 			pdata <= data_r;
