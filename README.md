@@ -49,7 +49,7 @@ You will find here all the data I've collected about the original Gameduino:
  - board/	contain the schematic and PCB design for the Gameduino
  - doc/		Documentation about the Gameduino and j1 CPU
  - fpga/	The FPGA source for the Gameduino
- - fpga/Altera Xilinx named wrappers for Altera specific IPs
+ - fpga/Altera/ Xilinx named wrappers for Altera specific IPs
  - gd/		The Arduino library for the Gameduino
  - Python/	A set of tool writen in Python
  - j1/		The original j1 CPU with it's firmware and FPGA source
