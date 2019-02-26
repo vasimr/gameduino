@@ -1,0 +1,22 @@
+# Modelsim backups
+*.bak
+*.mti
+*.flock
+
+# Modelsim output Files
+fpga/work/*
+fpga/db/*
+fpga/*.mti
+fpga/*.mpf
+fpga/transcript
+
+# Modelsim Artifacts
+*.bak
+
+# Mac Artifacts
+.DS_Store
+
+# Vim Artifacts
+*.swp
+*.swo
+.ctrlp_cache/
