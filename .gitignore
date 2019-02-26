@@ -10,6 +10,10 @@ fpga/*.mti
 fpga/*.mpf
 fpga/transcript
 
+# firmware archive (for legal reasons)
+firmware_archive/*
+firmware_archive/Xilinx/*
+
 # Modelsim Artifacts
 *.bak
 
