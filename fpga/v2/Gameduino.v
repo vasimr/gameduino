@@ -1,4 +1,5 @@
 `define YES
+`define A7_DEBUG
 `include "revision.v"
 
 module lfsre(
@@ -298,14 +299,14 @@ module mRAM128X1D(
   input DPRA6,
   output DPO,   // port A out
   output SPO);  // port B out
-  parameter INIT = 128'b0;
+  parameter INIT = 128'h00000000000000000000000000000000;
 
   wire hDPO;
   wire lDPO;
   wire hSPO;
   wire lSPO;
   mRAM64X1D
-    #( .INIT(INIT[63:0]) ) 
+   // #( .INIT(INIT[63:0]) ) 
     lo(
     .D(D),
     .WE(WE & !A6),
@@ -325,7 +326,7 @@ module mRAM128X1D(
     .DPO(lDPO),
     .SPO(lSPO));
   mRAM64X1D
-    #( .INIT(INIT[127:64]) ) 
+   // #( .INIT(INIT[127:64]) ) 
     hi(
     .D(D),
     .WE(WE & A6),
@@ -812,11 +813,19 @@ end
 endmodule
 
 module Gameduino(
-  input clk_25Mhz,
+`ifdef A7_DEBUG
+  input clk_100Mhz,
+  output [3:0] vga_red,
+  output [3:0] vga_green,
+  output [3:0] vga_blue,
+`else
+  input clk_25MHz,
   output [2:0] vga_red,
   output [2:0] vga_green,
   output [2:0] vga_blue,
-  inout [32:0] VGA_Bus,
+`endif
+
+  //inout [32:0] VGA_Bus,
   output vga_hsync_n,
   output vga_vsync_n,
 
@@ -824,16 +833,22 @@ module Gameduino(
   input MOSI, // arduino 11
   inout MISO, // arduino 12
   input SSEL, // arduino 9
-  inout AUX,  // arduino 2
+ // inout AUX,  // arduino 2
   output AUDIOL,
-  output AUDIOR,
+  output AUDIOR
 
-  output flashMOSI,
-  input  flashMISO,
-  output flashSCK,
-  output flashSSEL
+  //output flashMOSI,
+  //input  flashMISO,
+  //output flashSCK,
+  //output flashSSEL
 
   );
+
+wire flashMOSI;
+wire flashMISO;
+wire flashSCK;
+wire flashSSEL;
+wire AUX;
 
 //clk32to50 papilio_clock (
 //    .CLKIN_IN(clk_25Mhz), 
@@ -842,7 +857,11 @@ module Gameduino(
 //    .CLK0_OUT(CLK0_OUT)
 //    );
 
-  assign clka = clk_25Mhz;
+`ifdef A7_DEBUG
+  assign clka = clk_100Mhz;
+`else
+  assign clka = clk_25MHz;
+`endif
 
   wire mem_clk;
   wire [7:0] host_mem_data_wr;
@@ -856,7 +875,20 @@ module Gameduino(
   wire mem_rd;
 
   wire vga_clk;
-  ck_div #(.DIV_BY(2), .MULT_BY(4)) vga_ck_gen(.ck_in(clka), .ck_out(vga_clk));
+  
+`ifdef A7_DEBUG
+  clk_wiz_0 vga_ck_gen
+  (
+  // Clock out ports  
+  .clk_out1(vga_clk),
+  // Status and control signals               
+  .reset(0), 
+ // Clock in ports
+  .clk_in1(clka)
+  );
+`else
+    ck_div #(.DIV_BY(4), .MULT_BY(2)) vga_ck_gen(.ck_in(clka), .ck_out(vga_clk));
+`endif
 
   wire [15:0] j1_insn;
   wire [12:0] j1_insn_addr;
@@ -899,7 +931,7 @@ module Gameduino(
   reg signed [15:0] sample_l;
   reg signed [15:0] sample_r;
   reg [6:0] modvoice = 64;
-  reg [14:0] bg_color;
+  reg [14:0] bg_color = 14'b101010100011001;
   reg [7:0] pin2mode = 0;
   wire pin2f = (pin2mode == 8'h46);
   wire pin2j = (pin2mode == 8'h4A);
@@ -1104,7 +1136,7 @@ module Gameduino(
   wire [7:0] voicera_read;
 
   reg j1_reset = 0;
-  reg spr_disable = 0;
+  reg spr_disable = 1;
   reg spr_page = 0;
 
   // Screenshot notes
@@ -1563,17 +1595,25 @@ module Gameduino(
   wire [2:0] f_b = {3{dith_b[5]}} | dith_b[4:2];
 
   wire [2:0] ccc = { charout[1], charout[0], charout[0] };
+
+`ifdef A7_DEBUG
+  assign vga_red =    vga_active ? {f_r,1'b0} : 0;
+  assign vga_green =  vga_active ? {f_g,1'b0} : 0;
+  assign vga_blue =   vga_active ? {f_b,1'b0} : 0;
+  assign vga_hsync_n = ~vga_HS;
+  assign vga_vsync_n = ~vga_VS;
+`else
   assign vga_red =    vga_active ? f_r : 0;
   assign vga_green =  vga_active ? f_g : 0;
   assign vga_blue =   vga_active ? f_b : 0;
   assign vga_hsync_n = ~vga_HS;
   assign vga_vsync_n = ~vga_VS;
-  
-  assign VGA_Bus[9:7] =    vga_active ? f_r : 0;
-  assign VGA_Bus[19:17] =  vga_active ? f_g : 0;
-  assign VGA_Bus[29:27] =   vga_active ? f_b : 0;
-  assign VGA_Bus[30] = ~vga_HS;
-  assign VGA_Bus[31] = ~vga_VS;  
+`endif
+  //assign VGA_Bus[9:7] =    vga_active ? f_r : 0;
+  //assign VGA_Bus[19:17] =  vga_active ? f_g : 0;
+ // assign VGA_Bus[29:27] =   vga_active ? f_b : 0;
+ // assign VGA_Bus[30] = ~vga_HS;
+ // assign VGA_Bus[31] = ~vga_VS;  
 
   /*
   An 18-bit counter, multiplied by the frequency gives a single bit
