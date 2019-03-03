@@ -11,9 +11,6 @@ module sid8580
 	input   [7:0] data_in,
 	output [ 7:0] data_out,
 
-	input   [7:0] pot_x,
-	input   [7:0] pot_y,
-
 	input         extfilter_en,
 	output [17:0] audio_data
 );
@@ -51,7 +48,6 @@ reg  [7:0] Filter_Mode_Vol;
 wire [7:0] Misc_Osc3_Random;
 wire [7:0] Misc_Env3;
 
-reg  [7:0] do_buf;
 reg  [7:0] sidrandom;
 
 wire [11:0] voice_1;
@@ -70,12 +66,14 @@ wire [18:0] unsigned_filt;
 
 localparam DC_offset = 14'b00111111111111;
 
-reg [7:0] _st_out[3];
-reg [7:0] p_t_out[3];
-reg [7:0] ps__out[3];
-reg [7:0] pst_out[3];
-wire [11:0] sawtooth[3];
-wire [11:0] triangle[3];
+wire [7:0] _st_out[2:0];
+wire [7:0] p_t_out[2:0];
+wire [7:0] ps__out[2:0];
+wire [7:0] pst_out[2:0];
+wire [11:0] sawtooth[2:0];
+wire [11:0] triangle[2:0];
+
+reg [7:0] last_wr;
 
 // Voice 1 Instantiation
 sid_voice v1
@@ -151,6 +149,9 @@ sid_voice v3
 	.triangle(triangle[2])
 );
 
+wire [11:0] f_sawtooth;
+wire [11:0] f_triangle;
+
 // Filter Instantiation
 sid_filters filters
 (
@@ -180,26 +181,61 @@ sid_tables sid_tables
 	.pst_out(f_pst_out)
 );
 
-wire [7:0] f__st_out;
-wire [7:0] f_p_t_out;
-wire [7:0] f_ps__out;
-wire [7:0] f_pst_out;
-reg [11:0] f_sawtooth;
-reg [11:0] f_triangle;
+//wire [7:0] f__st_out;
+//wire [7:0] f_p_t_out;
+//wire [7:0] f_ps__out;
+//wire [7:0] f_pst_out;
 
-always @(posedge clk) begin
-	reg [3:0] state;
+sid8580_State stater(
+	.clk(clk),
+	.ce_1m(ce_1m),
+	 .f_st_out(f__st_out),
+	.f_p_t_out(f_p_t_out),
+	 .f_ps_out(f_ps__out),
+	.f_pst_out(f_pst_out),
+	 .sawtooth0(sawtooth[0]),
+	 .sawtooth1(sawtooth[1]),
+	 .sawtooth2(sawtooth[2]), 
+	 .triangle0(triangle[0]), 
+	 .triangle1(triangle[1]), 
+	 .triangle2(triangle[2]),
+	.f_sawtooth(f_sawtooth),
+	.f_triangle(f_triangle),
+	.st_out0(_st_out[0]),
+	.st_out1(_st_out[1]),
+	.st_out2(_st_out[2]),
+	.p_t_out0(p_t_out[0]),
+	.p_t_out1(p_t_out[1]),
+	.p_t_out2(p_t_out[2]),
+	.ps_out0(ps__out[0]),
+	.ps_out1(ps__out[1]),
+	.ps_out2(ps__out[2]),
+	.pst_out0(pst_out[0]),
+	.pst_out1(pst_out[1]),
+	.pst_out2(pst_out[2])
+);
+
+//wire [3:0] state;
+
+/*
+always @(posedge clk) 
+
 	
-	if(~&state) state <= state + 1'd1;;
-	if(ce_1m) state <= 0;
-
+	/*if(~state) begin 
+		if(ce_1m)
+			state <= 3'b000;
+		else
+			state <= state + 1;
+	end
+*/
+/*
 	case(state)
 		1,5,9: begin
 			f_sawtooth <= sawtooth[state[3:2]];
 			f_triangle <= triangle[state[3:2]];
 		end
 	endcase
-
+*//*
 	case(state)
 		3,7,11: begin
 			_st_out[state[3:2]] <= f__st_out;
@@ -209,20 +245,7 @@ always @(posedge clk) begin
 		end
 	endcase
 end
-
-
-assign data_out = do_buf;
-
-reg [7:0] last_wr;
-always @(*) begin
-	case (addr)
-		  5'h19: do_buf = pot_x;
-		  5'h1a: do_buf = pot_y;
-		  5'h1b: do_buf = Misc_Osc3_Random;
-		  5'h1c: do_buf = Misc_Env3;
-		default: do_buf = last_wr;
-	endcase
-end
+*/
 
 
 // Register Decoding

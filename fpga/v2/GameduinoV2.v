@@ -1,5 +1,5 @@
 `define YES
-`define A7_DEBUG
+//`define A7_DEBUG
 `define USE_AUDIO
 `define USE_SID
 `include "revision.v"

@@ -1,3 +1,6 @@
+//`define USING_2SIDS
+
+
 module GD_SID8580_Wrapper(
     input vga_clk,
     output [7:0] mem_data_rd,
@@ -14,13 +17,26 @@ module GD_SID8580_Wrapper(
     output AUDIOR
 );
 
-  wire writeSID = mem_wr & (mem_w_addr[14:5] == 10'b0101010000);
-  wire [4:0] addrSID = 0;
-  wire [17:0] SIDAduioL = 0;
-  wire [17:0] SIDAudioR = 0;
-  wire signed [15:0] lsum = 0;
-  wire signed [15:0] rsum = 0;
-  assign addrSID = (writeSID)? mem_w_addr[4:0] : mem_r_addr[4:0];
+  wire [4:0] addrSID;
+  wire [17:0] SIDAduioL;
+  wire [17:0] SIDAduioR;
+
+  wire writeSIDL = mem_wr & (mem_w_addr[14:5] == 10'b0101010000);
+  wire [7:0] mem_data_rdL;
+
+`ifdef USING_2SIDS
+  wire writeSIDR = mem_wr & (mem_w_addr[14:5] == 10'b0101010001);
+  wire [7:0] mem_data_rdR;
+  assign mem_data_rd = (mem_w_addr[5])? mem_data_rdR : mem_data_rdL;
+  assign addrSID = (writeSIDL | writeSIDR)? mem_w_addr[4:0] : mem_r_addr[4:0];
+`else
+  assign mem_data_rd = mem_data_rdL;
+  assign addrSID = (writeSIDL)? mem_w_addr[4:0] : mem_r_addr[4:0];
+`endif
+
+
+
+
 
 // sound counter
   reg [17:0] soundcounter;
@@ -32,28 +48,50 @@ module GD_SID8580_Wrapper(
 
   wire [5:0] vi = soundcounter;
 
-
-
-sid8580 sid (
+`ifdef USING_2SIDS
+   sid8580 sidR (
 	.reset(0),
 
 	.clk(vga_clk),
-	.ce_1m(writeSID),
+	.ce_1m(writeSIDR),
 
-	.we(writeSID),
+	.we(writeSIDR),
 	.addr(addrSID),
 	.data_in(mem_data_wr),
-	.data_out(mem_data_rd),
+	.data_out(mem_data_rdR),
+
+	.extfilter_en(0),
+	.audio_data(SIDAduioR)
+       );
+
+`endif
+
+sid8580 sidL (
+	.reset(0),
+
+	.clk(vga_clk),
+	.ce_1m(writeSIDL),
+
+	.we(writeSIDL),
+	.addr(addrSID),
+	.data_in(mem_data_wr),
+	.data_out(mem_data_rdL),
 
 	.extfilter_en(0),
 	.audio_data(SIDAduioL)
        );
 
-  assign lsum = SIDAduioL[17:2];
-  assign rsum = SIDAduioL[17:2];
-
   reg signed [15:0] lacc;
   reg signed [15:0] racc;
+
+`ifdef USING_2SIDS
+  wire signed [15:0] lsum = lacc + SIDAduioL[17:2];
+  wire signed [15:0] rsum = racc + SIDAduioR[17:2];
+`else
+  wire signed [15:0] lsum = lacc + SIDAduioL[17:2];
+  wire signed [15:0] rsum = racc + SIDAduioL[17:2];
+`endif
+
   wire zeroacc = (vi == 63);
   wire [15:0] _lacc = zeroacc ? sample_l : lsum;
   wire [15:0] _racc = zeroacc ? sample_r : rsum;

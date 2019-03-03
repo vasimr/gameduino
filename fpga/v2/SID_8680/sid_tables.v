@@ -12,6 +12,11 @@ module sid_tables
 	output reg [7:0] pst_out
 );
 
+wire [7:0] wave__st[4095:0];
+wire [7:0] wave_p_t[2047:0];
+wire [7:0] wave_ps_[4095:0];
+wire [7:0] wave_pst[4095:0];
+
 always @(posedge clock) begin
 	_st_out <= wave__st[sawtooth];
 	p_t_out <= wave_p_t[triangle[11:1]];
@@ -23,10 +28,7 @@ end
 // convert combinatorial logic to ROM (Sorgelig)
 //
 
-wire [7:0] wave__st[4096];
-wire [7:0] wave_p_t[2048];
-wire [7:0] wave_ps_[4096];
-wire [7:0] wave_pst[4096];
+
 
 generate
 	genvar i;
