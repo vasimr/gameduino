@@ -126,7 +126,12 @@ wire AUX;
   reg signed [15:0] sample_l;
   reg signed [15:0] sample_r;
 
-  reg [14:0] bg_color = 14'b101010100011001;
+  reg [14:0] bg_color = 15'b1010101000110010;
+  reg [15:0] g0_color = 16'b01111111111111111;
+  reg [15:0] g1_color = 16'b10000000000000000;
+  reg [15:0] g2_color = 16'b10000000000000000;
+  reg [15:0] g3_color = 16'b10000000000000000;
+  reg [1:0] GPalette_Ctrl = 2'b00;
   reg [7:0] pin2mode = 0;
   wire pin2f = (pin2mode == 8'h46);
   wire pin2j = (pin2mode == 8'h4A);
@@ -329,6 +334,7 @@ wire AUX;
 
   reg j1_reset = 0;
   reg spr_disable = 1;
+  reg dith_en = 1;
   reg spr_page = 0;
 
   // Screenshot notes
@@ -369,6 +375,7 @@ wire AUX;
     11'h00a: mem_data_rd_reg <= spr_disable;
     11'h00b: mem_data_rd_reg <= spr_page;
     11'h00c: mem_data_rd_reg <= pin2mode;
+    11'h00d: mem_data_rd_reg <= dith_en;
     11'h00e: mem_data_rd_reg <= bg_color[7:0];
     11'h00f: mem_data_rd_reg <= bg_color[14:8];
     11'h010: mem_data_rd_reg <= sample_l[7:0];
@@ -376,9 +383,19 @@ wire AUX;
     11'h012: mem_data_rd_reg <= sample_r[7:0];
     11'h013: mem_data_rd_reg <= sample_r[15:8];
     11'h014: mem_data_rd_reg <= mem_data_rdAudio;
+    11'h015: mem_data_rd_reg <= GPalette_Ctrl;
+    11'h016: mem_data_rd_reg <= g0_color[7:0];
+    11'h017: mem_data_rd_reg <= g0_color[15:8];
+    11'h018: mem_data_rd_reg <= g1_color[7:0];
+    11'h019: mem_data_rd_reg <= g1_color[15:8];
+    11'h01a: mem_data_rd_reg <= g2_color[7:0];
+    11'h01b: mem_data_rd_reg <= g2_color[15:8];
+    11'h01c: mem_data_rd_reg <= g3_color[7:0];
+    11'h01d: mem_data_rd_reg <= g3_color[15:8];   
     11'h01e: mem_data_rd_reg <= public_yy[7:0];
-  //  11'h01f: mem_data_rd_reg <= {screenshot_done, 6'b000000, public_yy[8]};
-
+    11'h01f: mem_data_rd_reg <= public_yy[8];
+    //11'h02X: mem_data_rd_reg <= GPalette_read;
+    //11'h03X: mem_data_rd_reg <= GPalette_read;
     11'b00001xxxxx0: mem_data_rd_reg <= palette16l_read;
     11'b00001xxxxx1: mem_data_rd_reg <= palette16h_read;
     11'b00010xxxxx0: mem_data_rd_reg <= palette4l_read;
@@ -396,6 +413,8 @@ wire AUX;
     endcase
   end
 
+  // assign gpalette_wr = mem_wr & (mem_w_addr[10:5] == 6'b000001);
+
   //assign screenshot_reset = mem_wr & (mem_w_addr[14:11] == 5) & (mem_w_addr[10:0] == 11'h01f);
   always @(posedge mem_clk)
   begin
@@ -410,13 +429,22 @@ wire AUX;
       11'h00a: spr_disable    <= mem_data_wr;
       11'h00b: spr_page       <= mem_data_wr;
       11'h00c: pin2mode       <= mem_data_wr;
+      11'h00d: dith_en        <= mem_data_wr;
       11'h00e: bg_color[7:0]  <= mem_data_wr;
       11'h00f: bg_color[14:8] <= mem_data_wr;
       11'h010: sample_l[7:0]  <= mem_data_wr;
       11'h011: sample_l[15:8] <= mem_data_wr;
       11'h012: sample_r[7:0]  <= mem_data_wr;
       11'h013: sample_r[15:8] <= mem_data_wr;
-
+      11'h015: GPalette_Ctrl  <= mem_data_wr;
+      11'h016: g0_color[7:0]  <= mem_data_wr;
+      11'h017: g0_color[15:8] <= mem_data_wr;
+      11'h018: g1_color[7:0]  <= mem_data_wr;
+      11'h019: g1_color[15:8] <= mem_data_wr;
+      11'h01a: g2_color[7:0]  <= mem_data_wr;
+      11'h01b: g2_color[15:8] <= mem_data_wr;
+      11'h01c: g3_color[7:0]  <= mem_data_wr;
+      11'h01d: g3_color[15:8] <= mem_data_wr; 
  //     11'h01e: screenshot_yy[7:0] <= mem_data_wr;
 //      11'h01f: begin screenshot_primed <= mem_data_wr[7];
 //               screenshot_yy[8] <= mem_data_wr; end
@@ -725,7 +753,8 @@ wire AUX;
   wire [1:0] dith;
   // 0 2
   // 3 1
-  assign dith = {(xx[0]^yy[0]), yy[0]};
+  // if dith_en = 0, then dith = 0 always
+  assign dith = {(xx[0]^yy[0]), yy[0]} & {dith_en, dith_en};
   wire [5:0] dith_r = (bg_r + dith);
   wire [5:0] dith_g = (bg_g + dith);
   wire [5:0] dith_b = (bg_b + dith);
