@@ -9,7 +9,7 @@ module GD_AudioSystem(
     input signed [15:0] sample_l,
     input signed [15:0] sample_r,
     input lfsr,
-    output soundcounterOut,
+    output [17:0] soundcounterOut,
     output AUDIOL,
     output AUDIOR
 );
@@ -43,6 +43,9 @@ module GD_AudioSystem(
 
   wire [14:0] mem_addr = mem_w_addr;
   reg [17:0] soundcounter;
+ 
+  assign soundcounterOut = soundcounter;
+
   always @(posedge vga_clk)
     soundcounter <= soundcounter + 1;
   wire [5:0] viN = soundcounter + 1;
