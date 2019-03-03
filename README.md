@@ -50,12 +50,16 @@ You will find here all the data I've collected about the original Gameduino:
  - doc/		Documentation about the Gameduino and j1 CPU
  - fpga/	The FPGA source for the Gameduino
  - fpga/Altera/ Xilinx named wrappers for Altera specific IPs
+ - fpga/v2/ Version 2 with custom modifications, based on a Spartan 6 compatible version
  - gd/		The Arduino library for the Gameduino
  - Python/	A set of tool writen in Python
  - j1/		The original j1 CPU with it's firmware and FPGA source
  - j0/		The slightly modified j1 CPU for the Gameduino, as the j0 is part of the Gameduino, only the firmware part is accessible here
  - archives/    Raw files found on James' website
-
+ - utilities/Altera/ Altera specific utilities (currently empty)
+ - utilities/Xilinx/ Xilinx specific utilities. Currently contains two windows bash scripts for generating .hex and .bin PROM files.
+ - utilities/MOD-VGA/ C-code utilities for programming and driving the MOD-VGA board via a FT232H USB to SPI cable.
+ 
 Licensing
 ---------
 
