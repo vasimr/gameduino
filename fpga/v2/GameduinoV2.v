@@ -1,7 +1,8 @@
 `define YES
-`define A7_DEBUG
-//`define USE_AUDIO
-//`define USE_SID
+`define A7_DEBUG 1
+`define USE_AUDIO 1
+`define USE_DIGITALAUDIO 1
+//`define USE_SID 1
 `include "revision.v"
 
 // the main gameduino module
@@ -858,6 +859,24 @@ wire AUX;
     .AUDIOL(AUDIOL),
     .AUDIOR(AUDIOR)
   );
+
+`elsif USE_DIGITALAUDIO
+
+  GD_DigitalAudio audio(
+    .vga_clk(vga_clk),
+    .mem_data_rd(mem_data_rdAudio),
+    .mem_data_wr(mem_data_wr),
+    .mem_w_addr(mem_w_addr),   // Combined write address
+    .mem_r_addr(mem_r_addr),   // Combined read address
+    .mem_rd(mem_rd),
+    .mem_wr(mem_wr),
+    .sample_l(sample_l),
+    .sample_r(sample_r),
+    .lfsr(lfsr),
+    .soundcounterOut(soundcounter),
+    .AUDIOL(AUDIOL),
+    .AUDIOR(AUDIOR)
+ );
 
 `else
 
