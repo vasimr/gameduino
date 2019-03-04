@@ -1,7 +1,7 @@
 `define YES
-//`define A7_DEBUG
-`define USE_AUDIO
-`define USE_SID
+`define A7_DEBUG
+//`define USE_AUDIO
+//`define USE_SID
 `include "revision.v"
 
 // the main gameduino module
@@ -126,11 +126,11 @@ wire AUX;
   reg signed [15:0] sample_l;
   reg signed [15:0] sample_r;
 
-  reg [14:0] bg_color = 15'b1010101000110010;
-  reg [15:0] g0_color = 16'b01111111111111111;
-  reg [15:0] g1_color = 16'b10000000000000000;
-  reg [15:0] g2_color = 16'b10000000000000000;
-  reg [15:0] g3_color = 16'b10000000000000000;
+  reg [14:0] bg_color = 15'b010000011110100;
+  reg [15:0] g0_color = 16'b0111111111111111;
+  reg [15:0] g1_color = 16'b1000000000000000;
+  reg [15:0] g2_color = 16'b1000000000000000;
+  reg [15:0] g3_color = 16'b1000000000000000;
   reg [1:0] GPalette_Ctrl = 2'b00;
   reg [7:0] pin2mode = 0;
   wire pin2f = (pin2mode == 8'h46);
@@ -285,15 +285,30 @@ wire AUX;
     .dib(mem_data_wr), .dob(mem_data_rd1),             .web(mem_wr), .enb(en_chr), .clkb(mem_clk), .addrb(mem_addr),.ssrb(0));
 
   reg [7:0] _glyph;
+  reg glyph_MSB;
+  reg [11:0] picaddr1;
+  reg [11:0] picaddr2;
+  reg [1:0] picaddr3;
+  reg [1:0] _charout;
+ 
   always @(posedge vga_clk)
+  begin
     _glyph <= glyph;
+    glyph_MSB <= _glyph[7];
+    picaddr1 <= picaddr;
+    picaddr2 <= picaddr1;
+    picaddr3 <= picaddr2[1:0];
+    _charout <= charout;
+  end
+
 
   wire [4:0] bg_r;
   wire [4:0] bg_g;
   wire [4:0] bg_b;
-
+  wire [9:0] cpal_addr = (GPalette_Ctrl[0])? {_glyph, charout} : picaddr2[11:2];
   wire en_pal = (mem_addr[14:11] == 4'b0100);
   wire [15:0] char_matte;
+  wire [15:0] cPal_out;
   RAM_PAL charpalette(
     .DIA(mem_data_wr),
     .WEA(mem_wr),
@@ -307,10 +322,61 @@ wire AUX;
     .WEB(0),
     .ENB(1),
     .CLKB(vga_clk),
-    .ADDRB({_glyph, charout}),
-    .DOB(char_matte),
+    .ADDRB(cpal_addr),
+    .DOB(cPal_out),
     .SSRB(0)
   );
+
+  wire [3:0] pix_colorSel;
+
+  // instantiate the pixel decoder
+  PixelDecoder pixdec(
+    .PAL_Color(cPal_out),
+    .CHR_X(picaddr3[1:0]),
+    .color_select(pix_colorSel)
+  );
+  wire [7:0] GPalette_read;
+  wire gpalette_wr = mem_wr & (mem_w_addr[10:5] == 6'b000001);
+  wire [15:0] gPal_out;
+
+ila_0 ila_inst (
+.clk(vga_clk),
+
+
+.probe0(picaddr),
+.probe1(picaddr1),
+.probe2(cPal_out),
+.probe3(picaddr2),
+.probe4(picaddr3),
+.probe5(pix_colorSel)
+);
+
+  // instantiate the global palette
+  GPalette gpal(
+	.clk( mem_clk ),
+        // memory interface signals
+	.mem_wr(gpalette_wr),	
+     	.mem_data_wr(mem_data_wr), 
+     	.mem_w_addr(mem_addr),  
+     	.mem_r_addr(mem_addr),  
+	.mem_data_rd(GPalette_read),
+	// color mode info
+	.glyph_MSB(glyph_MSB),   // the glyph ID's MSB (for color mode 1)
+	.color_mode(GPalette_Ctrl[1]),  // the color mode, 0 for global 3, 1 for global 2
+	.color_select(pix_colorSel), // value from RAM_COL
+	.pixel_color(_charout), // value from RAM_CHR
+        // color inputs
+	.g0_color(g0_color), // global palette color 0
+	.g1_color(g1_color), // global palette color 0
+	.g2_color(g2_color), // global palette color 0
+	.g3_color(g3_color), // -- global palette color 0
+	// final color output
+	.color_matte(gPal_out) 
+  );
+	
+
+  assign char_matte = (GPalette_Ctrl[0])? cPal_out : gPal_out;
+
   // wire [4:0] bg_mix_r = bg_color[14:10] + char_matte[14:10];
   // wire [4:0] bg_mix_g = bg_color[9:5]   + char_matte[9:5];
   // wire [4:0] bg_mix_b = bg_color[4:0]   + char_matte[4:0];
@@ -394,8 +460,8 @@ wire AUX;
     11'h01d: mem_data_rd_reg <= g3_color[15:8];   
     11'h01e: mem_data_rd_reg <= public_yy[7:0];
     11'h01f: mem_data_rd_reg <= public_yy[8];
-    //11'h02X: mem_data_rd_reg <= GPalette_read;
-    //11'h03X: mem_data_rd_reg <= GPalette_read;
+    11'h02X: mem_data_rd_reg <= GPalette_read;
+    11'h03X: mem_data_rd_reg <= GPalette_read;
     11'b00001xxxxx0: mem_data_rd_reg <= palette16l_read;
     11'b00001xxxxx1: mem_data_rd_reg <= palette16h_read;
     11'b00010xxxxx0: mem_data_rd_reg <= palette4l_read;
@@ -413,7 +479,7 @@ wire AUX;
     endcase
   end
 
-  // assign gpalette_wr = mem_wr & (mem_w_addr[10:5] == 6'b000001);
+
 
   //assign screenshot_reset = mem_wr & (mem_w_addr[14:11] == 5) & (mem_w_addr[10:0] == 11'h01f);
   always @(posedge mem_clk)

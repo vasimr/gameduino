@@ -36,12 +36,13 @@ generic (
 ); 
 port( 	
 	signal clock : in std_logic; 
-	signal rd_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
-	signal wr_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
-	signal wr_en : in std_logic; 
-	signal din : in std_logic_vector ((DWIDTH - 1) downto 0);
-	
-	signal dout : out std_logic_vector ((DWIDTH - 1) downto 0)
+    signal rd_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal wr_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal wr_en : in std_logic; 
+    signal din : in std_logic_vector ((DWIDTH - 1) downto 0);
+    signal rd_addrB : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal doutB : out std_logic_vector ((DWIDTH - 1) downto 0);
+    signal dout : out std_logic_vector ((DWIDTH - 1) downto 0)
 ); 
 end component sramb;
 
@@ -102,12 +103,13 @@ generic (
 ); 
 port( 	
 	signal clock : in std_logic; 
-	signal rd_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
-	signal wr_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
-	signal wr_en : in std_logic; 
-	signal din : in std_logic_vector ((DWIDTH - 1) downto 0);
-	
-	signal dout : out std_logic_vector ((DWIDTH - 1) downto 0)
+    signal rd_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal wr_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal wr_en : in std_logic; 
+    signal din : in std_logic_vector ((DWIDTH - 1) downto 0);
+    signal rd_addrB : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal doutB : out std_logic_vector ((DWIDTH - 1) downto 0);
+    signal dout : out std_logic_vector ((DWIDTH - 1) downto 0)
 ); 
 end component sramb;
 

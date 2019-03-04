@@ -19,7 +19,8 @@ port(
 	signal wr_addr : in std_logic_vector ((AWIDTH - 1) downto 0); 
 	signal wr_en : in std_logic; 
 	signal din : in std_logic_vector ((DWIDTH - 1) downto 0);
-	
+	signal rd_addrB : in std_logic_vector ((AWIDTH - 1) downto 0); 
+    signal doutB : out std_logic_vector ((DWIDTH - 1) downto 0);
 	signal dout : out std_logic_vector ((DWIDTH - 1) downto 0)
 ); 
 end entity sramb;
@@ -38,7 +39,7 @@ begin
 		if ( rising_edge(clock) ) then 
 		
 			dout <= std_logic_vector(to_01(unsigned( mem(to_integer(to_01(unsigned(rd_addr)))))));
-
+            doutB <= std_logic_vector(to_01(unsigned( mem(to_integer(to_01(unsigned(rd_addrB)))))));
 			if ( wr_en = '1' ) then
 				mem(to_integer(to_01(unsigned(wr_addr)))) <= std_logic_vector(to_01(unsigned(din)));
 			end if; 
@@ -76,5 +77,5 @@ begin
 
 
 	dout <= std_logic_vector(to_01(unsigned( mem(to_integer(to_01(unsigned(rd_addr)))))));
-	
+	doutB <= std_logic_vector(to_01(unsigned( mem(to_integer(to_01(unsigned(rd_addrB)))))));
 end architecture raws;
