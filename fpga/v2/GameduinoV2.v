@@ -336,20 +336,8 @@ wire AUX;
     .color_select(pix_colorSel)
   );
   wire [7:0] GPalette_read;
-  wire gpalette_wr = mem_wr & (mem_w_addr[10:5] == 6'b000001);
+  wire gpalette_wr = mem_wr & (mem_w_addr[14:5] == 10'b0101000001);
   wire [15:0] gPal_out;
-
-ila_0 ila_inst (
-.clk(vga_clk),
-
-
-.probe0(picaddr),
-.probe1(picaddr1),
-.probe2(cPal_out),
-.probe3(picaddr2),
-.probe4(picaddr3),
-.probe5(pix_colorSel)
-);
 
   // instantiate the global palette
   GPalette gpal(
@@ -357,8 +345,8 @@ ila_0 ila_inst (
         // memory interface signals
 	.mem_wr(gpalette_wr),	
      	.mem_data_wr(mem_data_wr), 
-     	.mem_w_addr(mem_addr),  
-     	.mem_r_addr(mem_addr),  
+     	.mem_w_addr(mem_w_addr[4:0]),  
+     	.mem_r_addr(mem_r_addr[4:0]),  
 	.mem_data_rd(GPalette_read),
 	// color mode info
 	.glyph_MSB(glyph_MSB),   // the glyph ID's MSB (for color mode 1)
@@ -460,8 +448,8 @@ ila_0 ila_inst (
     11'h01d: mem_data_rd_reg <= g3_color[15:8];   
     11'h01e: mem_data_rd_reg <= public_yy[7:0];
     11'h01f: mem_data_rd_reg <= public_yy[8];
-    11'h02X: mem_data_rd_reg <= GPalette_read;
-    11'h03X: mem_data_rd_reg <= GPalette_read;
+    11'h02x: mem_data_rd_reg <= GPalette_read;
+    11'h03x: mem_data_rd_reg <= GPalette_read;
     11'b00001xxxxx0: mem_data_rd_reg <= palette16l_read;
     11'b00001xxxxx1: mem_data_rd_reg <= palette16h_read;
     11'b00010xxxxx0: mem_data_rd_reg <= palette4l_read;

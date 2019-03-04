@@ -83,7 +83,7 @@ begin
 							din => din(((8 * (i + 1)) - 1) downto (8 * i)), 
 							rd_addr => rd_addr((AWIDTH - 1) downto 0), 
 							wr_addr => wr_addr((AWIDTH - 1) downto 0), 
-							rd_addrB => rd_addr((AWIDTH - 1) downto 0),
+							rd_addrB => rd_addrB((AWIDTH - 1) downto 0),
 							wr_en => wr_en(i), 
 							dout => dout(((8 * (i + 1)) - 1) downto (8 * i)),
 							doutB => doutB(((8 * (i + 1)) - 1) downto (8 * i)) 
@@ -150,7 +150,7 @@ begin
 							din => din(((8 * (i + 1)) - 1) downto (8 * i)), 
 							rd_addr => rd_addr((AWIDTH - 1) downto 0), 
 							wr_addr => wr_addr((AWIDTH - 1) downto 0), 
-							rd_addrB => rd_addr((AWIDTH - 1) downto 0),
+							rd_addrB => rd_addrB((AWIDTH - 1) downto 0),
 							wr_en => wr_en(i), 
 							dout => dout(((8 * (i + 1)) - 1) downto (8 * i)),
 							doutB => doutB(((8 * (i + 1)) - 1) downto (8 * i)) 

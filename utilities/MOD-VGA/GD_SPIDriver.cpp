@@ -83,6 +83,7 @@ class Color
 public:
 	Color(uint8 a, uint8 r, uint8 g, uint8 b)
 	{
+
 		m_Color.cValue.a = a;
 		m_Color.cValue.r = r;
 		m_Color.cValue.g = g;
@@ -171,11 +172,25 @@ void SetColor(uint32 address, uint8 r, uint8 g, uint8 b, uint8 a)
 	WriteToReg(address, color & 0xFF);
 }
 
+void PrintColor(uint32 address)
+{
+
+	uint32 val1 = ReadFromReg(address + 1);
+	uint32 val0 = ReadFromReg(address);
+	uint32 val = (val1 << 8) | val0;
+	printf("%04X : %04X \n", address, val);
+}
+
 void SetColor(uint32 address, Color c)
 {
-	WriteToReg(address + 1, (c.Get() >> 8) & 0xFF);
-	WriteToReg(address, c.Get() & 0xFF);
+	printf("Writing color %04X\n", c.Get());
+	WriteToReg(address + 1, ( (c.Get()) >> 8) & 0xFF);
+	WriteToReg(address, (c.Get()) & 0xFF);
+	printf("Read Color ");
+	PrintColor(address);
 }
+
+
 
 void WriteCharacter(int addr, const char* data)
 {
@@ -335,6 +350,46 @@ void TypeAscii()
 	}
 }
 
+void WriteGPaletteColor(int x, int y, int c0)
+{
+	int index = y * 64 + x;
+	int addr = (index >> 1) + 0x2000;
+
+	// read the current value
+	uint8 cval = ReadFromReg(addr);
+	uint8 mask = 0;
+	// mask c0
+	c0 = c0 & 0xF;
+
+	switch (x & 0x1)
+	{
+	case 0:
+		mask = 0xF0;
+		c0 = c0 << 4;
+		break;
+	case 1:
+		mask = 0x0F;
+		// c0 unchanged
+		break;
+	}
+
+	cval = cval & (~mask); // clears the value we are writing;
+	cval = cval | c0;
+
+	printf("%04X : %02X \n", addr, cval);
+
+	WriteToReg(addr, cval);
+}
+
+uint8 C8to5(uint8 color8)
+{
+	double fColor = color8;
+	fColor = fColor / 255.0;
+	return (0x1F * fColor);
+}
+
+
+
 int main()
 {
 	FT_STATUS status = FT_OK;
@@ -360,30 +415,30 @@ int main()
 	APP_CHECK_STATUS(status);
 	printf("Number of available SPI channels = %d\n",(int)channels);
 
-	if(channels>0)
+	if (channels > 0)
 	{
-		for(i=0;i<channels;i++)
+		for (i = 0; i < channels; i++)
 		{
-			status = SPI_GetChannelInfo(i,&devList);
+			status = SPI_GetChannelInfo(i, &devList);
 			APP_CHECK_STATUS(status);
-			printf("Information on channel number %d:\n",i);
+			printf("Information on channel number %d:\n", i);
 			/* print the dev info */
-			printf("		Flags=0x%x\n",devList.Flags);
-			printf("		Type=0x%x\n",devList.Type);
-			printf("		ID=0x%x\n",devList.ID);
-			printf("		LocId=0x%x\n",devList.LocId);
-			printf("		SerialNumber=%s\n",devList.SerialNumber);
-			printf("		Description=%s\n",devList.Description);
-			printf("		ftHandle=0x%x\n",(unsigned int)devList.ftHandle);/*is 0 unless open*/
+			printf("		Flags=0x%x\n", devList.Flags);
+			printf("		Type=0x%x\n", devList.Type);
+			printf("		ID=0x%x\n", devList.ID);
+			printf("		LocId=0x%x\n", devList.LocId);
+			printf("		SerialNumber=%s\n", devList.SerialNumber);
+			printf("		Description=%s\n", devList.Description);
+			printf("		ftHandle=0x%x\n", (unsigned int)devList.ftHandle);/*is 0 unless open*/
 		}
 
 		/* Open the first available channel */
-		status = SPI_OpenChannel(CHANNEL_TO_OPEN,&ftHandle);
+		status = SPI_OpenChannel(CHANNEL_TO_OPEN, &ftHandle);
 		APP_CHECK_STATUS(status);
-		printf("\nhandle=0x%x status=0x%x\n",(unsigned int)ftHandle,status);
-		status = SPI_InitChannel(ftHandle,&channelConf);
+		printf("\nhandle=0x%x status=0x%x\n", (unsigned int)ftHandle, status);
+		status = SPI_InitChannel(ftHandle, &channelConf);
 		APP_CHECK_STATUS(status);
-		
+
 		// attempt to read from the revision register
 		uint8 ident = ReadFromReg(0x2800);
 		uint8 rev = ReadFromReg(0x2801);
@@ -393,12 +448,69 @@ int main()
 		WriteToReg(0x280A, 1);
 
 		// set the background color
-		//SetColor(0x280E, _C(1, 0xFF, 0xFF, 0xFF));
-		
+		// light purple c64 (0xc1fb)
+		//SetColor(0x280E, _C(1, C8to5(0x86), C8to5(0x7c), C8to5(0xdf) ));
+		// dark purple c64 (0xa0f4)
+		//SetColor(0x280E, _C(1, C8to5(0x47), C8to5(0x3b), C8to5(0xa9) ));
+
+
+
+		// return the palette mode to the original
+		WriteToReg(0x2815, 0x02);
+
+		// write a bar to character zero and character 255
+		WriteCharacterByIndex(0, CHAR_BAR);
+		WriteCharacterByIndex(255, CHAR_BAR);
+
+		// set the global colors
+		SetColor(0x2816, _C(0, 0xFF, 0, 0));
+		SetColor(0x2818, _C(0, 0, 0xFF, 0));
+		SetColor(0x281A, _C(0, 0, 0, 0xFF));
+		SetColor(0x281C, _C(0, 0xFF, 0xFF, 0));
+
+		// clear the GPallete RAM
+#if 0
+		for (int kk = 0; kk < 2048; kk++)
+		{
+			WriteToReg(0x2000 + kk, 0);
+		}
+#endif
+		// write the 16 palette
+		for (int kk = 0; kk < 8; kk++)
+		{
+			SetColor(0x2820 + (2 * kk), _C(0, (kk +1) * 3, 0, (kk+1) * 3));
+			WriteGPaletteColor(kk, 0, kk);
+			WriteGPaletteColor(kk, 1, kk);
+			SetScreenCharacter(kk, 0, 0);
+			SetScreenCharacter(kk, 1, 255);
+			PrintColor(0x2820 + 2 * kk);
+		}
+
+		for (int kk = 8; kk < 16; kk++)
+		{
+			SetColor(0x2820 + (2 * kk), _C(0, 0, (kk - 7) * 3, (kk - 7) * 3));
+			WriteGPaletteColor(kk, 0, kk);
+			WriteGPaletteColor(kk, 1, kk);
+			SetScreenCharacter(kk, 0, 0);
+			SetScreenCharacter(kk, 1, 255);
+			PrintColor(0x2820 + 2 * kk);
+		}
+
+		// dump the first 8 bytes of RAM_COL
+		for (int kk = 0; kk < 8; kk++)
+		{
+			uint8 val = ReadFromReg(0x2000 + kk);
+			printf("%02X ", val);
+		}
+		printf("\n");
+
 		WriteScrollReg(0, 0);
 
 		//WriteBars();
-		TypeAscii();
+		//TypeAscii();
+
+		// disable the dither register
+		WriteToReg(0x280D, 1);
 
 		// cleanup the SPI channel
 		status = SPI_CloseChannel(ftHandle);

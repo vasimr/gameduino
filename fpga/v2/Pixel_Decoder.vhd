@@ -19,14 +19,16 @@ begin
 	process(CHR_X, PAL_COLOR) is
 	begin
 		case(CHR_X) is
-		when "00" =>
+		when "10" => -- 2
 			color_select <= PAL_Color(15 downto 12);
-		when "01" =>
+		when "11" => -- 3
 			color_select <= PAL_Color(11 downto 8);
-		when "10" =>
+		when "00" => -- 0
 			color_select <= PAL_Color(7 downto 4);
-		when others =>
+		when "01" => -- 1
 			color_select <= PAL_Color(3 downto 0);
+		when others =>
+			color_select <= PAL_Color(7 downto 4);
 		end case;
 	end process;
 

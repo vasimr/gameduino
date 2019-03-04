@@ -60,12 +60,13 @@ architecture RTL of GPalette is
 	signal palA : std_logic_vector(15 downto 0);
 	signal palB : std_logic_vector(15 downto 0);
     signal color_T : std_logic_vector(15 downto 0);
+
 begin
 
 
 	-- setup the byte write enable
-	bweA <= ((mem_wr AND mem_w_addr(0)) & (mem_wr AND (NOT mem_w_addr(0)))) AND ( (NOT mem_r_addr(4)) & (NOT mem_r_addr(4)));
-	bweB <= ((mem_wr AND mem_w_addr(0)) & (mem_wr AND (NOT mem_w_addr(0)))) AND (mem_r_addr(4) & mem_r_addr(4));
+	bweA <= ((mem_wr AND mem_w_addr(0)) & (mem_wr AND (NOT mem_w_addr(0)))) AND ( (NOT mem_w_addr(4)) & (NOT mem_w_addr(4)));
+	bweB <= ((mem_wr AND mem_w_addr(0)) & (mem_wr AND (NOT mem_w_addr(0)))) AND (mem_w_addr(4) & mem_w_addr(4));
 
 	tWrite <= mem_data_wr & mem_data_wr;
 	-- instantiate the register block
