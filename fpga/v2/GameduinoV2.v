@@ -1,5 +1,6 @@
 `define YES
-`define A7_DEBUG 1
+//`define A7_DEBUG 1
+`define USING_OLDISE 1
 `define USE_AUDIO 1
 `define USE_DIGITALAUDIO 1
 //`define USE_SID 1
@@ -14,7 +15,7 @@ module Gameduino(
   output [3:0] vga_green,
   output [3:0] vga_blue,
 `else
-  input clk_25MHz,
+  input clka,
   output [2:0] vga_red,
   output [2:0] vga_green,
   output [2:0] vga_blue,
@@ -55,7 +56,7 @@ wire AUX;
 `ifdef A7_DEBUG
   assign clka = clk_100Mhz;
 `else
-  assign clka = clk_25MHz;
+  //assign clka = clk_25MHz;
 `endif
 
   wire mem_clk;
@@ -340,6 +341,31 @@ wire AUX;
   wire gpalette_wr = mem_wr & (mem_w_addr[14:5] == 10'b0101000001);
   wire [15:0] gPal_out;
 
+
+`ifdef USING_OLDISE
+  // instantiate the global palette
+  GPalette_Old gpal(
+	.clk( mem_clk ),
+        // memory interface signals
+	.mem_wr(gpalette_wr),	
+     	.mem_data_wr(mem_data_wr), 
+     	.mem_w_addr(mem_w_addr[4:0]),  
+     	.mem_r_addr(mem_r_addr[4:0]),  
+	.mem_data_rd(GPalette_read),
+	// color mode info
+	.glyph_MSB(glyph_MSB),   // the glyph ID's MSB (for color mode 1)
+	.color_mode(GPalette_Ctrl[1]),  // the color mode, 0 for global 3, 1 for global 2
+	.color_select(pix_colorSel), // value from RAM_COL
+	.pixel_color(_charout), // value from RAM_CHR
+        // color inputs
+	.g0_color(g0_color), // global palette color 0
+	.g1_color(g1_color), // global palette color 0
+	.g2_color(g2_color), // global palette color 0
+	.g3_color(g3_color), // -- global palette color 0
+	// final color output
+	.color_matte(gPal_out) 
+  );
+`else
   // instantiate the global palette
   GPalette gpal(
 	.clk( mem_clk ),
@@ -362,7 +388,7 @@ wire AUX;
 	// final color output
 	.color_matte(gPal_out) 
   );
-	
+`endif	
 
   assign char_matte = (GPalette_Ctrl[0])? cPal_out : gPal_out;
 
