@@ -223,7 +223,18 @@ entity GPalette_Old is
 end entity GPalette_Old;
 
 architecture RTL_Old of GPalette_Old is
+	
 	component RegFile16_8 is 
+	generic(
+	constant COL0 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL1 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL2 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL3 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL4 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL5 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL6 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL7 : std_logic_vector(15 downto 0) := (others => '0')
+	);
 	port ( 
 	signal clock : in std_logic; 
 	signal rd_addr : in std_logic_vector (2 downto 0); 
@@ -248,7 +259,7 @@ architecture RTL_Old of GPalette_Old is
 	signal regColorB : std_logic_vector(15 downto 0);
 	signal palA : std_logic_vector(15 downto 0);
 	signal palB : std_logic_vector(15 downto 0);
-    signal color_T : std_logic_vector(15 downto 0);
+    	signal color_T : std_logic_vector(15 downto 0);
 
 begin
 
@@ -260,6 +271,16 @@ begin
 	tWrite <= mem_data_wr & mem_data_wr;
 	-- instantiate the register block
 	regFileA: component RegFile16_8
+			generic map(
+				COL0 => X"7FFF", -- C64 color 1
+				COL1 => X"0000", -- C64 color 0
+				COL2 => X"30C5", -- C64 color 2
+				COL3 => X"3675", -- C64 color 3
+				COL4 => X"34F0", -- C64 color 4
+				COL5 => X"2A28", -- C64 color 5
+				COL6 => X"188E", -- C64 color 6
+				COL7 => X"5B0D"  -- C64 color 7
+			)
 			port map(
 				clock => clk,
 				rd_addr => mem_r_addr(3 downto 1),
@@ -272,6 +293,16 @@ begin
 			);
 
 	regFileB: component RegFile16_8
+			generic map(
+				COL0 => X"3525", -- C64 color 8
+				COL1 => X"20C0", -- C64 color 9
+				COL2 => X"4D8A", -- C64 color A
+				COL3 => X"2108", -- C64 color B
+				COL4 => X"35AD", -- C64 color C
+				COL5 => X"4B30", -- C64 color D
+				COL6 => X"3576", -- C64 color E
+				COL7 => X"4A52"  -- C64 color F
+			)
 			port map(
 				clock => clk,
 				rd_addr => mem_r_addr(3 downto 1),

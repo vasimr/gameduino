@@ -8,6 +8,16 @@ USE IEEE.numeric_std.all;
 --	  RAWS (Read ASynchronous, Write Synchronous) Writes on CLK, and Reads ASYNC
 
 entity RegFile16_8 is 
+generic(
+	constant COL0 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL1 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL2 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL3 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL4 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL5 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL6 : std_logic_vector(15 downto 0) := (others => '0');
+	constant COL7 : std_logic_vector(15 downto 0) := (others => '0')
+);
 port ( 
 	signal clock : in std_logic; 
 	signal rd_addr : in std_logic_vector (2 downto 0); 
@@ -24,26 +34,27 @@ architecture RTL of RegFile16_8 is
 
 	type ARRAY_SLV_DWIDTH is array ( natural range <> ) of std_logic_vector (15 downto 0); 
 	type ARRAY_SLV_BWE is array ( natural range <> ) of std_logic_vector (1 downto 0); 
+	constant InitV : ARRAY_SLV_DWIDTH(0 to 7) := (COL0, COL1, COL2, COL3, COL4, COL5, COL6, COL7);
 	signal mOut : ARRAY_SLV_DWIDTH (0 to 7); 
 	signal mbe : ARRAY_SLV_BWE (0 to 7); 
 
-	component RegLine is 
+	component RegLine16 is 
 	generic ( 	
-		constant DWIDTH : integer := 32 
+	constant INIT_V : std_logic_vector(15 downto 0) := (others => '0') 
 	); 
 	port( 	
-		signal clock : in std_logic; 
-		signal din : in std_logic_vector(DWIDTH-1 downto 0);
-		signal wr_en : in std_logic_vector (((DWIDTH / 8) - 1) downto 0); 
-		signal dout : out std_logic_vector(DWIDTH-1 downto 0)
+	signal clock : in std_logic; 
+	signal din : in std_logic_vector(15 downto 0);
+	signal wr_en : in std_logic_vector (1 downto 0); 
+	signal dout : out std_logic_vector(15 downto 0)
 	); 
-	end component RegLine;
-
+	end component RegLine16;
+	
 begin 
 
    GEN_REG: 
    for I in 0 to 7 generate
-      REGX : component RegLine generic map( DWIDTH => 16 )
+      REGX : component RegLine16 generic map( INIT_V => InitV(I) )
 			port map(
 			clock => clock,
 			wr_en => mbe(I),

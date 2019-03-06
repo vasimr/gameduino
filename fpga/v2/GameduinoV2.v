@@ -1,5 +1,5 @@
 `define YES
-//`define A7_DEBUG 1
+`define A7_DEBUG 1
 `define USING_OLDISE 1
 `define USE_AUDIO 1
 `define USE_DIGITALAUDIO 1
@@ -129,7 +129,7 @@ wire AUX;
   reg signed [15:0] sample_r;
 
   reg [14:0] bg_color = 15'b010000011110100;
-  reg [15:0] g0_color = 16'b0111111111111111;
+  reg [15:0] g0_color = 16'b1111111111111111;
   reg [15:0] g1_color = 16'b1000000000000000;
   reg [15:0] g2_color = 16'b1000000000000000;
   reg [15:0] g3_color = 16'b1000000000000000;
@@ -415,7 +415,7 @@ wire AUX;
 
   reg j1_reset = 0;
   reg spr_disable = 1;
-  reg dith_en = 1;
+  reg [1:0] dith_en = 2'b11;
   reg spr_page = 0;
 
   // Screenshot notes
@@ -835,7 +835,9 @@ wire AUX;
   // 0 2
   // 3 1
   // if dith_en = 0, then dith = 0 always
-  assign dith = {(xx[0]^yy[0]), yy[0]} & {dith_en, dith_en};
+  wire xdith = dith_en[0] & xx[0];
+  wire ydith = dith_en[1] & yy[0];
+  assign dith = {(xdith^ydith), ydith};
   wire [5:0] dith_r = (bg_r + dith);
   wire [5:0] dith_g = (bg_g + dith);
   wire [5:0] dith_b = (bg_b + dith);
