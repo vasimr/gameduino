@@ -1,5 +1,5 @@
 `define YES
-`define A7_DEBUG 1
+//`define A7_DEBUG 1
 `define USING_OLDISE 1
 `define USE_AUDIO 1
 `define USE_DIGITALAUDIO 1
@@ -29,22 +29,22 @@ module Gameduino(
   input MOSI, // arduino 11
   inout MISO, // arduino 12
   input SSEL, // arduino 9
- // inout AUX,  // arduino 2
+ inout AUX,  // arduino 2
   output AUDIOL,
-  output AUDIOR
+  output AUDIOR,
 
-  //output flashMOSI,
-  //input  flashMISO,
-  //output flashSCK,
-  //output flashSSEL
+  output flashMOSI,
+  input  flashMISO,
+  output flashSCK,
+  output flashSSEL
 
   );
 
-wire flashMOSI;
-wire flashMISO;
-wire flashSCK;
-wire flashSSEL;
-wire AUX;
+//wire flashMOSI;
+//wire flashMISO;
+//wire flashSCK;
+//wire flashSSEL;
+//wire AUX;
 
 //clk32to50 papilio_clock (
 //    .CLKIN_IN(clk_25Mhz), 
@@ -83,7 +83,7 @@ wire AUX;
   .clk_in1(clka)
   );
 `else
-    ck_div #(.DIV_BY(4), .MULT_BY(2)) vga_ck_gen(.ck_in(clka), .ck_out(vga_clk));
+    ck_div #(.DIV_BY(2), .MULT_BY(4)) vga_ck_gen(.ck_in(clka), .ck_out(vga_clk));
 `endif
 
   wire [15:0] j1_insn;
