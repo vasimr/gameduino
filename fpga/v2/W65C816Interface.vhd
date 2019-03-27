@@ -2,6 +2,27 @@ library ieee;
 use ieee.std_logic_1164.all;
 USE IEEE.numeric_std.all;
 -- Implementation of a W65C816 MOS 6502 CPU interface
+--   Current assumptions: 
+--	- External bus clock is 1/4 of the internal GD clock (i.e. 12.5 MHz)
+--	- The chip select signal is asserted (CS = 1) at the start of a transaction, and is held until completion
+--	- After chip select asserted, the interface will assert a clock stretch signal to prevent the CPU from transitioning early
+--	- To prevent glitching, the bus, address, and rw signals will be latched on the second clock of the inteface (@50MHz) after the CS is asserted
+--	- The address, write data, and commands will be sent to the intenral bus on the 2nd cycle.
+--	- The read data will be latched on the 2nd cycle, and be made availble to the external bus on the 3rd cycle
+--	- the clock stretch signal will be de-asserted during the 4rd cycle
+
+-- Timing:
+--	GD_CLK ____|---|___|---|___|---|___|---|___|---|_
+--	CPUCLK __|-------------|___________|-------------
+--	pCS    __|-------------------------|_____________
+--	SEQ    <000><001   ><010   ><011   ><100    >
+--	CSTRCH __|-------------------------|_____________
+--	BUSDA  xxxxxxxxxxxxxxxxxxxxx<RDATA >xxxxxxxxxxxxx
+--	ADDRL  xxxxx<ADDR                           >
+--	WDATA  xxxxx<WDATA                          >
+--      RDATA  xxxxxxxxxxxxx<RDATA                  >
+--	WrSig  _____________|-----|______________________
+--	RdSig  _____________|-----|______________________
 
 entity W65C816Interface is
 	port(
@@ -69,15 +90,17 @@ begin
 		case( sequenceCt ) is
 		when "000" =>
 			pCStretch <= pCS;
-		when "011" | "100" | "101" | "110" | "111" =>
+		when "001" | "010" |"011" =>
+			pCStretch <= '1';
+		when "100" | "101" | "110" | "111" =>
 			pCStretch <= '0';
 		when others =>
-			pCStretch <= '1';
+			pCStretch <= '0';
 		end case;
 	end process seq_proc;
 
 	-- interface latch process
-	ltch_proc : process( sequenceCt, pRnW, pdata, paddr ) is
+	ltch_proc : process( sequenceCt, pRnW, pdata, paddr, pCS ) is
 	begin
 		
 		-- defaults (hold the latch)
@@ -88,9 +111,11 @@ begin
 
 		case( sequenceCt ) is
 		when "001" =>
-			rwSig_C <= NOT pRnW & pRnW;
-			AddrL_C <= paddr;
-			wrDataL_C <= pdata;
+			if( pCS = '1' ) then
+				rwSig_C <= NOT pRnW & pRnW;
+				AddrL_C <= paddr;
+				wrDataL_C <= pdata;
+			end if;
 		when "010" =>
 			rwSig_C <= (others => '0');
 			rdDataL_C <= data_r;
