@@ -9,7 +9,7 @@ USE IEEE.numeric_std.all;
 --	- To prevent glitching, the bus, address, and rw signals will be latched on the second clock of the inteface (@50MHz) after the CS is asserted
 --	- The address, write data, and commands will be sent to the intenral bus on the 2nd cycle.
 --	- The read data will be latched on the 2nd cycle, and be made availble to the external bus on the 3rd cycle
---	- the clock stretch signal will be de-asserted during the 4rd cycle
+--	- the clock stretch signal will be de-asserted during the 4th cycle
 
 -- Timing:
 --	GD_CLK ____|---|___|---|___|---|___|---|___|---|_
