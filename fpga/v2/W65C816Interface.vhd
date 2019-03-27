@@ -134,7 +134,7 @@ begin
 		else
 			pdata <= (others => 'Z');
 		end if;
-	end process;
+	end process z_proc;
 
 	-- connect the GD interface
 	data_w <= wrDataL;
